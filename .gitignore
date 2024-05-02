@@ -1,0 +1,37 @@
+# OS generated files #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PHP Composer #
+vendor/
+composer.lock
+
+# Node #
+node_modules/
+npm-debug.log
+
+# Logs and databases #
+*.log
+*.sql
+*.sqlite
+
+# Environment files #
+.env
+
+# IDE and editor folders #
+/.idea
+/.vscode
+*.sublime-workspace
+
+# Other common directories to ignore #
+cache/
+tmp/
+temp/
+
+# Specific files that may contain sensitive information or configuration specific to a developer's environment #
+/config.php
