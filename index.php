@@ -1,8 +1,15 @@
 <?php
 
 require_once 'src/controllers/AppController.php';
+require_once 'src/controllers/SecurityController.php';
 
-$routing = [];
+$routing = [
+    'login' => [
+        'controller' => 'SecurityController',
+        'action' => 'login',
+        'access' => []
+    ],
+];
 
 $controller = new AppController();
 
