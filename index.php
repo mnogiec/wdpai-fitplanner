@@ -1,7 +1,6 @@
 <?php
 
 require_once 'Database.php';
-require_once 'src/utils/logger.php';
 require_once 'src/controllers/AppController.php';
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/repository/UserRepository.php';

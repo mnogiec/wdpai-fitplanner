@@ -3,10 +3,13 @@
 class AppController
 {
   private $request;
+  private $sessionService;
+  private $user;
 
   public function __construct()
   {
     $this->request = $_SERVER['REQUEST_METHOD'];
+    $this->sessionService = null;
   }
 
   protected function isGet(): bool
@@ -32,6 +35,14 @@ class AppController
   protected function isDelete(): bool
   {
     return $this->request === 'DELETE';
+  }
+
+  protected function getSession(): SessionManager
+  {
+    if (!$this->sessionService) {
+      $this->sessionService = new SessionManager();
+    }
+    return $this->sessionService;
   }
 
   public function render(string $template = null, array $variables = [])

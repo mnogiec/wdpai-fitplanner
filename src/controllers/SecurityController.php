@@ -47,7 +47,6 @@ class SecurityController extends AppController
             return;
         }
 
-
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/login");
     }
@@ -58,9 +57,15 @@ class SecurityController extends AppController
             return $this->render('login');
         }
 
-        //TODO check if user is authenticated
         $email = $_POST['email'];
         $password = $_POST['password'];
+
+        $user = $this->userRepository->getUser($email);
+
+        if ($user === null || !password_verify($password, $user->getPassword())) {
+            $this->render('login', ['errorMessage' => 'Wrong email or password!']);
+            return;
+        }
 
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");

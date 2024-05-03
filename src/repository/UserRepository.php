@@ -5,15 +5,21 @@ require_once __DIR__ . '/../models/User.php';
 
 class UserRepository extends Repository
 {
-  public function getUser(int $id)
+  public function getUser($email)
   {
     $query = $this->database->connect()->prepare('
-      SELECT * FROM users WHERE id = :id
+      SELECT * FROM users WHERE email = :email
     ');
-    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->bindParam(':email', $email, PDO::PARAM_STR);
     $query->execute();
 
-    return $query->fetch(PDO::FETCH_CLASS, User::class);
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user) {
+      return null;
+    }
+
+    return new User($user['id'], $user['first_name'], $user['last_name'], $user['email'], $user['password'], $user['created_at']);
   }
 
   public function createUser($data)
