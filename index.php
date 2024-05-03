@@ -1,5 +1,6 @@
 <?php
 
+require_once 'Database.php';
 require_once 'src/controllers/AppController.php';
 require_once 'src/controllers/SecurityController.php';
 
