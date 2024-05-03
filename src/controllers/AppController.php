@@ -36,7 +36,7 @@ class AppController
 
   public function render(string $template = null, array $variables = [])
   {
-    $templatePath = 'public/views/' . $template . '.html';
+    $templatePath = 'public/views/' . $template . '.php';
 
     if (!file_exists($templatePath)) {
       $templatePath = 'public/views/not_found.html';

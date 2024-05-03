@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Database.php';
+require_once 'src/utils/logger.php';
 require_once 'src/controllers/AppController.php';
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/repository/UserRepository.php';
@@ -10,6 +11,11 @@ $routing = [
     'login' => [
         'controller' => 'SecurityController',
         'action' => 'login',
+        'access' => []
+    ],
+    'register' => [
+        'controller' => 'SecurityController',
+        'action' => 'register',
         'access' => []
     ],
 ];
@@ -22,6 +28,7 @@ $action = explode("/", $path)[0];
 $action = $action == null ? 'login' : $action;
 
 switch ($action) {
+    case "register":
     case "login":
         //TODO check if user is authenticated and has access to system
         $controllerName = $routing[$action]['controller'];
