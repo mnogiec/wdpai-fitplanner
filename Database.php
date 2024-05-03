@@ -1,6 +1,7 @@
 <?php
 
-class Database {
+class Database
+{
     private static $instance = null;
     private $username;
     private $password;
@@ -15,16 +16,21 @@ class Database {
         $this->database = "db";
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
-    private function __wakeup() {}
+    private function __wakeup()
+    {
+    }
 
     public function connect()
     {
@@ -33,13 +39,12 @@ class Database {
                 "pgsql:host=$this->host;port=5432;dbname=$this->database",
                 $this->username,
                 $this->password,
-                ["sslmode"  => "prefer"]
+                ["sslmode" => "prefer"]
             );
 
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $conn;
-        }
-        catch(PDOException $e) {
+        } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
         }
     }

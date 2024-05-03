@@ -1,6 +1,9 @@
 <?php
 
-class AppController {
+class AppController
+{
+  private $request;
+
   public function __construct()
   {
     $this->request = $_SERVER['REQUEST_METHOD'];
@@ -33,12 +36,12 @@ class AppController {
 
   public function render(string $template = null, array $variables = [])
   {
-    $templatePath = 'public/views/'. $template.'.html';
+    $templatePath = 'public/views/' . $template . '.html';
 
-    if(!file_exists($templatePath)){
+    if (!file_exists($templatePath)) {
       $templatePath = 'public/views/not_found.html';
     }
-            
+
     extract($variables);
 
     ob_start();
