@@ -1,5 +1,5 @@
 <header class="header">
-  <p>FitTracker</p>
+  <img src="public/assets/images/logo.svg" alt="FitTracker logo" class="logo">
   <nav class="nav">
     <a href="/">Home</a>
     <a href="/exercises-base">Search</a>
