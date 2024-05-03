@@ -1,5 +1,10 @@
 <?php
 
+require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ . '/../services/SessionService.php';
+require_once __DIR__ . '/../utils/utils.php';
+
+
 class AppController
 {
   private $request;
@@ -45,12 +50,43 @@ class AppController
     return $this->sessionService;
   }
 
+  protected function getLoggedUser()
+  {
+    if (!$this->user) {
+      $user_id = $this->getSession()->getUserID();
+      if (!$user_id)
+        return null;
+      $this->user = (new UserRepository())->getUser(null, $user_id);
+    }
+    return $this->user;
+  }
+
+
+  protected function loginRequired()
+  {
+    if ($this->getSession()->isLoggedIn()) {
+      return;
+    }
+
+    redirect('/login');
+  }
+
+  protected function adminRequired()
+  {
+    $currentUser = $this->getLoggedUser();
+    if ($currentUser->isAdmin()) {
+      return;
+    }
+
+    redirect('/no_access');
+  }
+
   public function render(string $template = null, array $variables = [])
   {
     $templatePath = 'public/views/' . $template . '.php';
 
     if (!file_exists($templatePath)) {
-      $templatePath = 'public/views/not_found.html';
+      $templatePath = 'public/views/not_found.php';
     }
 
     extract($variables);

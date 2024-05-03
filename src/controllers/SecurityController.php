@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
+require_once __DIR__ . '/../utils/utils.php';
 
 class SecurityController extends AppController
 {
@@ -16,7 +17,7 @@ class SecurityController extends AppController
     public function register()
     {
         if ($this->isGet()) {
-            return $this->render('register', ["title" => "Register"]);
+            return $this->render('register');
         }
 
         $firstName = $_POST['firstName'];
@@ -47,8 +48,7 @@ class SecurityController extends AppController
             return;
         }
 
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/login");
+        redirect('/login');
     }
 
     public function login()
@@ -67,7 +67,8 @@ class SecurityController extends AppController
             return;
         }
 
-        $url = "http://$_SERVER[HTTP_HOST]";
-        header("Location: {$url}/dashboard");
+        $this->getSession()->setUserID($user->getId());
+
+        redirect('/');
     }
 }

@@ -8,8 +8,9 @@ class User
   public $email;
   public $password;
   public $createdAt;
+  public $isAdmin;
 
-  public function __construct($id, $firstName, $lastName, $email, $password, $createdAt)
+  public function __construct($id, $firstName, $lastName, $email, $password, $createdAt, $isAdmin)
   {
     $this->id = $id;
     $this->firstName = $firstName;
@@ -17,6 +18,7 @@ class User
     $this->email = $email;
     $this->password = $password;
     $this->createdAt = $createdAt;
+    $this->isAdmin = $isAdmin;
   }
 
   public function getId()
@@ -47,5 +49,10 @@ class User
   public function getCreatedAt()
   {
     return $this->createdAt;
+  }
+
+  public function isAdmin()
+  {
+    return $this->isAdmin;
   }
 }
