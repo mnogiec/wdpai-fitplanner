@@ -71,4 +71,10 @@ class SecurityController extends AppController
 
         redirect('/');
     }
+
+    public function logout()
+    {
+        $this->getSession()->destroy();
+        redirect('/login');
+    }
 }

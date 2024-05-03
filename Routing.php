@@ -25,7 +25,7 @@ class Router
 
     if (!array_key_exists($action, self::$routes)) {
       ob_start();
-      include 'public/views/not_found.html';
+      include 'public/views/not_found.php';
       print ob_get_clean();
       return;
     }
