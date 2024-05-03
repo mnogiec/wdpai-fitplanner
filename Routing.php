@@ -1,7 +1,7 @@
 <?php
 
 require_once 'src/controllers/HomeController.php';
-require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/AuthController.php';
 
 class Router
 {

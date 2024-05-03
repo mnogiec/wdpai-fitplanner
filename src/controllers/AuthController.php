@@ -4,7 +4,7 @@ require_once 'AppController.php';
 require_once __DIR__ . '/../repository/UserRepository.php';
 require_once __DIR__ . '/../utils/utils.php';
 
-class SecurityController extends AppController
+class AuthController extends AppController
 {
     private $userRepository;
 

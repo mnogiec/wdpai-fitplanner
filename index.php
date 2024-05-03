@@ -10,11 +10,11 @@ Router::get('', 'HomeController');
 Router::get('no_access', 'HomeController');
 Router::get('not_found', 'HomeController');
 
-Router::get('login', 'SecurityController');
-Router::get('register', 'SecurityController');
+Router::get('login', 'AuthController');
+Router::get('register', 'AuthController');
 
-Router::post('login', 'SecurityController');
-Router::post('logout', 'SecurityController');
-Router::post('register', 'SecurityController');
+Router::post('login', 'AuthController');
+Router::post('logout', 'AuthController');
+Router::post('register', 'AuthController');
 
 Router::run($path);
