@@ -17,7 +17,6 @@ npm-debug.log
 
 # Logs and databases #
 *.log
-*.sql
 *.sqlite
 
 # Environment files #
