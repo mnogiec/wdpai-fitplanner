@@ -2,6 +2,8 @@
 
 require_once 'src/controllers/HomeController.php';
 require_once 'src/controllers/AuthController.php';
+require_once 'src/controllers/WorkoutController.php';
+require_once 'src/controllers/ExerciseController.php';
 
 class Router
 {
@@ -13,6 +15,21 @@ class Router
   }
 
   public static function post($url, $view)
+  {
+    self::$routes[$url] = $view;
+  }
+
+  public static function put($url, $view)
+  {
+    self::$routes[$url] = $view;
+  }
+
+  public static function patch($url, $view)
+  {
+    self::$routes[$url] = $view;
+  }
+
+  public static function delete($url, $view)
   {
     self::$routes[$url] = $view;
   }
