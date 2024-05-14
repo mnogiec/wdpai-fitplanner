@@ -25,12 +25,13 @@ class WorkoutController extends AppController
             return;
         }
 
-        // TODO: Implement (group by day)
+        $this->loginRequired();
+        return $this->render('workouts');
     }
 
     public function createWorkout()
     {
-        if (!$this->isPost()) {
+        if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
@@ -39,7 +40,7 @@ class WorkoutController extends AppController
 
     public function updateWorkout()
     {
-        if (!$this->isPatch()) {
+        if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
@@ -48,7 +49,7 @@ class WorkoutController extends AppController
 
     public function deleteWorkout()
     {
-        if (!$this->isDelete()) {
+        if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
