@@ -22,7 +22,8 @@ class ExerciseController extends AppController
             return;
         }
 
-        // TODO: Implement (with filter)
+        $this->loginRequired();
+        return $this->render('exercises_base');
     }
 
     public function private_exercises()
@@ -31,12 +32,14 @@ class ExerciseController extends AppController
             return;
         }
 
-        // TODO: Implement (with filter)
+        $this->loginRequired();
+        return $this->render('private_exercises');
+
     }
 
     public function create_private_exercise()
     {
-        if (!$this->isPost()) {
+        if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
@@ -45,7 +48,7 @@ class ExerciseController extends AppController
 
     public function update_private_exercise()
     {
-        if (!$this->isPatch()) {
+        if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
@@ -54,7 +57,7 @@ class ExerciseController extends AppController
 
     public function delete_private_exercise()
     {
-        if (!$this->isDelete()) {
+        if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
