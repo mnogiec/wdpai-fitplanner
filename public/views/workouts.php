@@ -12,6 +12,7 @@
 
 <body>
   <?php include_once __DIR__ . '/shared/header.php' ?>
+  <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
   <main class="main">
     <h1>Workouts</h1>
