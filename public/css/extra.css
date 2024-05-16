@@ -1,0 +1,28 @@
+.extra-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.extra-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.extra-box h1 {
+  text-transform: uppercase;
+  font-size: 5rem;
+}
+
+.extra-btn {
+  margin-top: 2rem;
+}
+
+.extra-text-wrapper {
+  gap: 0.3rem;
+}
