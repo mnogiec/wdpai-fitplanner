@@ -13,7 +13,9 @@
 <body>
   <?php include_once __DIR__ . '/shared/header.php' ?>
 
-  <h1>Workouts</h1>
+  <main class="main">
+    <h1>Workouts</h1>
+  </main>
 </body>
 
 </html>

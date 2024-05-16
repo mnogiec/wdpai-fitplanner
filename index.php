@@ -8,7 +8,7 @@ $path = parse_url($path, PHP_URL_PATH);
 
 
 // Home
-Router::get('', 'HomeController');
+Router::get('', 'WorkoutController');
 Router::get('no_access', 'HomeController');
 Router::get('not_found', 'HomeController');
 
@@ -20,7 +20,6 @@ Router::post('register', 'AuthController');
 Router::post('logout', 'AuthController');
 
 // Workouts
-Router::get('workouts', 'WorkoutController');
 Router::post('createWorkout', 'WorkoutController');
 Router::patch('updateWorkout', 'WorkoutController');
 Router::delete('deleteWorkout', 'WorkoutController');

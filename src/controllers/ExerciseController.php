@@ -1,8 +1,8 @@
 <?php
 
 require_once 'AppController.php';
-// require_once __DIR__ . '/../repository/ExerciseRepository.php';
-// require_once __DIR__ . '/../repository/ExerciseCategoryRepository.php';
+require_once __DIR__ . '/../repository/ExerciseRepository.php';
+require_once __DIR__ . '/../repository/ExerciseCategoryRepository.php';
 
 class ExerciseController extends AppController
 {
@@ -12,8 +12,8 @@ class ExerciseController extends AppController
     public function __construct()
     {
         parent::__construct();
-        // $this->exerciseRepository = new ExerciseRepository();
-        // $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
+        $this->exerciseRepository = new ExerciseRepository();
+        $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
     }
 
     public function exercises_base()
@@ -23,7 +23,7 @@ class ExerciseController extends AppController
         }
 
         $this->loginRequired();
-        return $this->render('exercises_base');
+        return $this->render('exercises_base', ['exercises' => $this->exerciseRepository->getExercisesBase()]);
     }
 
     public function private_exercises()
@@ -33,7 +33,7 @@ class ExerciseController extends AppController
         }
 
         $this->loginRequired();
-        return $this->render('private_exercises');
+        return $this->render('private_exercises', ['' => $this->exerciseRepository->getPrivateExercises($this->getLoggedUser()->getId())]);
 
     }
 

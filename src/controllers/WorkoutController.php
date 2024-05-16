@@ -2,8 +2,8 @@
 
 require_once 'AppController.php';
 // require_once __DIR__ . '/../repository/WorkoutRepository.php';
-// require_once __DIR__ . '/../repository/ExerciseRepository.php';
-// require_once __DIR__ . '/../repository/ExerciseCategoryRepository.php';
+require_once __DIR__ . '/../repository/ExerciseRepository.php';
+require_once __DIR__ . '/../repository/ExerciseCategoryRepository.php';
 
 class WorkoutController extends AppController
 {
@@ -15,11 +15,11 @@ class WorkoutController extends AppController
     {
         parent::__construct();
         // $this->workoutRepository = new WorkoutRepository();
-        // $this->exerciseRepository = new ExerciseRepository();
-        // $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
+        $this->exerciseRepository = new ExerciseRepository();
+        $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
     }
 
-    public function workouts()
+    public function index()
     {
         if (!$this->isGet()) {
             return;

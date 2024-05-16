@@ -13,7 +13,10 @@
 <body>
   <?php include_once __DIR__ . '/shared/header.php' ?>
 
-  <h1>Exercises base</h1>
+  <main class="main">
+    <h1>Exercises base</h1>
+    <?php var_dump($exercises) ?>
+  </main>
 </body>
 
 </html>
