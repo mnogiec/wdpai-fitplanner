@@ -1,0 +1,95 @@
+.exercises-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.exercises-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.exercises-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.exercises-search-input {
+  height: 3rem;
+  min-width: 30rem;
+}
+
+.exercises-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.exercises-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.exercises-boxes-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+  gap: 2rem;
+}
+
+.exercises-box {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1.6rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.exercises-image {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 1rem;
+  object-fit: cover;
+  align-self: center;
+}
+
+.exercises-text-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.exercises-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.exercises-options-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.exercises-option-btn {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.exercises-option-btn i {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+}
+
+.exercises-not-found {
+  margin-top: 5rem;
+}

@@ -36,7 +36,10 @@ class ExerciseRepository extends Repository
   public function getPrivateExercises($user_id)
   {
     $query = $this->database->connect()->prepare('
-      SELECT * FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = true AND e.creator_id = :user_id'
+    SELECT 
+      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
+      c.name as category_name  
+    FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = true AND e.creator_id = :user_id'
     );
 
     $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
@@ -44,9 +47,9 @@ class ExerciseRepository extends Repository
 
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    $exercises = [];
+    $groupedExercises = [];
     foreach ($result as $row) {
-      $exercises[] = new Exercise(
+      $exercise = new Exercise(
         $row['id'],
         $row['name'],
         $row['category_id'],
@@ -56,24 +59,35 @@ class ExerciseRepository extends Repository
         $row['is_private'],
         $row['image_url'],
       );
+
+      $categoryName = $row['category_name'];
+
+      if (!isset($groupedExercises[$categoryName])) {
+        $groupedExercises[$categoryName] = [];
+      }
+
+      $groupedExercises[$categoryName][] = $exercise;
     }
 
-    return $exercises;
+    return $groupedExercises;
   }
 
   public function getExercisesBase()
   {
     $query = $this->database->connect()->prepare('
-      SELECT * FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = false'
+      SELECT 
+      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
+      c.name as category_name
+      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = false'
     );
 
     $query->execute();
 
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    $exercises = [];
+    $groupedExercises = [];
     foreach ($result as $row) {
-      $exercises[] = new Exercise(
+      $exercise = new Exercise(
         $row['id'],
         $row['name'],
         $row['category_id'],
@@ -83,9 +97,18 @@ class ExerciseRepository extends Repository
         $row['is_private'],
         $row['image_url'],
       );
+
+      $categoryName = $row['category_name'];
+
+      if (!isset($groupedExercises[$categoryName])) {
+        $groupedExercises[$categoryName] = [];
+      }
+
+      $groupedExercises[$categoryName][] = $exercise;
     }
 
-    return $exercises;
+
+    return $groupedExercises;
   }
 
   public function createExercise($exercise)

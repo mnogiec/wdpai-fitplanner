@@ -7,6 +7,7 @@
   <link rel="icon" href="public/assets/favicon/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="public/css/base.css">
   <link rel="stylesheet" type="text/css" href="public/css/header.css">
+  <link rel="stylesheet" type="text/css" href="public/css/exercises.css">
   <title>Private exercises</title>
 </head>
 
@@ -14,8 +15,52 @@
   <?php include_once __DIR__ . '/shared/header.php' ?>
 
   <main class="main">
-    <h1>Private exercises</h1>
-    <?php var_dump($exercises) ?>
+    <div class="exercises-container">
+      <div class="exercises-topbar">
+        <h1 class="text-4xl font-bold">Private exercises</h1>
+        <div class="exercises-topbar-right">
+          <button type="button" class="btn">
+            Add exercise
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <input type="text" placeholder="Search by exercise name" class="exercises-search-input text-input" />
+        </div>
+      </div>
+
+      <div class="exercises-wrapper">
+        <?php if (empty($groupedExercises)): ?>
+          <p class="exercises-not-found text-gray text-center">No exercises found</p>
+        <?php else: ?>
+          <?php foreach ($groupedExercises as $categoryName => $exercises): ?>
+            <section class="exercises-section">
+              <h2 class="text-2xl font-semibold"><?php echo htmlspecialchars($categoryName); ?></h2>
+              <div class="exercises-boxes-wrapper">
+                <?php foreach ($exercises as $exercise): ?>
+                  <div class="exercises-box">
+                    <img src="<?php echo htmlspecialchars($exercise->getImageUrl()); ?>"
+                      alt="<?php echo htmlspecialchars($exercise->getName()); ?>" class="exercises-image">
+                    <div class="exercises-text-box">
+                      <h3 class="font-bold"><?php echo htmlspecialchars($exercise->getName()); ?></h3>
+                      <p class="text-sm text-gray exercises-description">
+                        <?php echo htmlspecialchars($exercise->getDescription()); ?>
+                      </p>
+                    </div>
+                    <div class="exercises-options-wrapper">
+                      <button type="button" class="exercises-option-btn" title="Edit">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button type="button" class="exercises-option-btn" title="Delete">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </button>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </section>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </div>
+    </div>
   </main>
 </body>
 
