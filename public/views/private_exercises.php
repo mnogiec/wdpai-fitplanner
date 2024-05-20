@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="public/assets/favicon/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="public/css/base.css">
   <link rel="stylesheet" type="text/css" href="public/css/header.css">
   <link rel="stylesheet" type="text/css" href="public/css/exercises.css">
@@ -16,6 +17,18 @@
   <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
   <main class="main">
+    <div id="exerciseModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-topbar">
+          <h3 class="modal-title font-bold text-2xl"></h3>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          <!-- Modal content will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+
     <div class="exercises-container">
       <div class="exercises-topbar">
         <h1 class="text-4xl font-bold">Private exercises</h1>
@@ -37,7 +50,7 @@
               <h2 class="text-2xl font-semibold"><?php echo htmlspecialchars($categoryName); ?></h2>
               <div class="exercises-boxes-wrapper">
                 <?php foreach ($exercises as $exercise): ?>
-                  <button class="exercises-box">
+                  <div class="exercises-box" data-video-url="<?php echo htmlspecialchars($exercise->getVideoUrl()); ?>">
                     <img src="<?php echo htmlspecialchars($exercise->getImageUrl()); ?>"
                       alt="<?php echo htmlspecialchars($exercise->getName()); ?>" class="exercises-image">
                     <div class="exercises-text-box">
@@ -54,7 +67,7 @@
                         <i class="fa-solid fa-trash-can"></i>
                       </button>
                     </div>
-                  </button>
+                  </div>
                 <?php endforeach; ?>
               </div>
             </section>
@@ -63,6 +76,7 @@
       </div>
     </div>
   </main>
+  <script src="public/scripts/exerciseDetailsModal.js"></script>
 </body>
 
 </html>

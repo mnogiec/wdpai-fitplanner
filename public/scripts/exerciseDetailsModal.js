@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ".exercises-description"
       ).innerText;
       const exerciseImageSrc = this.querySelector("img").src;
-      const exerciseVideoUrl = this.dataset.videoUrl; // Assuming the video URL is stored as a data attribute
+      const exerciseVideoUrl = this.dataset.videoUrl;
+      console.log(exerciseImageSrc);
+      console.log(exerciseVideoUrl);
 
       let modalContent = "";
 
