@@ -13,6 +13,7 @@
 
 <body>
   <?php include_once __DIR__ . '/shared/header.php' ?>
+  <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
   <main class="main">
     <div class="exercises-container">
@@ -36,7 +37,7 @@
               <h2 class="text-2xl font-semibold"><?php echo htmlspecialchars($categoryName); ?></h2>
               <div class="exercises-boxes-wrapper">
                 <?php foreach ($exercises as $exercise): ?>
-                  <div class="exercises-box">
+                  <button class="exercises-box">
                     <img src="<?php echo htmlspecialchars($exercise->getImageUrl()); ?>"
                       alt="<?php echo htmlspecialchars($exercise->getName()); ?>" class="exercises-image">
                     <div class="exercises-text-box">
@@ -53,7 +54,7 @@
                         <i class="fa-solid fa-trash-can"></i>
                       </button>
                     </div>
-                  </div>
+                  </button>
                 <?php endforeach; ?>
               </div>
             </section>
