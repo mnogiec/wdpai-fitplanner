@@ -45,7 +45,7 @@
 
       <div class="exercises-wrapper">
         <?php if (empty($groupedExercises)): ?>
-          <p class="text-lg text-red-500">No exercises found.</p>
+          <p class="exercises-not-found text-lg text-red-500">No exercises found</p>
         <?php else: ?>
           <?php foreach ($groupedExercises as $categoryName => $exercises): ?>
             <section class="exercises-section">
