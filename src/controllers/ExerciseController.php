@@ -23,7 +23,10 @@ class ExerciseController extends AppController
         }
 
         $this->loginRequired();
-        return $this->render('exercises_base', ['groupedExercises' => $this->exerciseRepository->getExercisesBase()]);
+        return $this->render('exercises_base', [
+            'groupedExercises' => $this->exerciseRepository->getExercisesBase(),
+            'isAdmin' => $this->getLoggedUser()->isAdmin()
+        ]);
     }
 
     public function private_exercises()

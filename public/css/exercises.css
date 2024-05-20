@@ -42,10 +42,13 @@
 
 .exercises-box {
   display: flex;
+  text-align: left;
   gap: 1rem;
   padding: 1rem;
   border-radius: 1.6rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border: none;
 }
 
 .exercises-image {
