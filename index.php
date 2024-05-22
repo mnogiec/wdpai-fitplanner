@@ -20,15 +20,15 @@ Router::post('register', 'AuthController');
 Router::post('logout', 'AuthController');
 
 // Workouts
-Router::post('createWorkout', 'WorkoutController');
-Router::patch('updateWorkout', 'WorkoutController');
-Router::delete('deleteWorkout', 'WorkoutController');
+Router::post('create_workout', 'WorkoutController');
+Router::patch('update_workout', 'WorkoutController');
+Router::delete('delete_workout', 'WorkoutController');
 
 // Exercises
 Router::get('exercises_base', 'ExerciseController');
 Router::get('private_exercises', 'ExerciseController');
-Router::post('create_private_exercise', 'ExerciseController');
-Router::patch('update_private_exercise', 'ExerciseController');
-Router::delete('delete_private_exercise', 'ExerciseController');
+Router::post('create_exercise', 'ExerciseController');
+Router::patch('update_exercise', 'ExerciseController');
+Router::delete('delete_exercise', 'ExerciseController');
 
 Router::run($path);
