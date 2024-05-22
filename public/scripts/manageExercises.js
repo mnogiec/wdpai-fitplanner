@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const description = exerciseBox.dataset.description;
       const videoUrl = exerciseBox.dataset.videoUrl;
       const imageUrl = exerciseBox.dataset.imageUrl;
-      const isPrivate = exerciseBox.dataset.isPrivate === "1";
 
       document.getElementById("exercise_id").value = exerciseId;
       document.getElementById("name").value = name;

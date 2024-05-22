@@ -57,7 +57,7 @@ class ExerciseController extends AppController
             $_POST['description'],
             $_POST['video_url'],
             $this->getLoggedUser()->getId(),
-            false,
+            $_POST['is_private'] ? true : false,
             $_POST['image_url']
         );
 
@@ -80,7 +80,7 @@ class ExerciseController extends AppController
             $patchVars['description'],
             $patchVars['video_url'],
             $this->getLoggedUser()->getId(),
-            false,
+            $patchVars['is_private'] ? true : false,
             $patchVars['image_url']
         );
 

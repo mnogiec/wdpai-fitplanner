@@ -37,6 +37,7 @@
           <form id="createEditForm" class="exercises-form">
             <div class="exercises-form-row">
               <input type="hidden" name="exercise_id" id="exercise_id">
+              <input type="hidden" name="is_private">
               <label for="name">Name:</label>
               <input class="text-input" type="text" id="name" name="name" required>
             </div>
