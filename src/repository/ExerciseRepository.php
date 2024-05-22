@@ -124,39 +124,35 @@ class ExerciseRepository extends Repository
       $exercise->getDescription(),
       $exercise->getVideoUrl(),
       $exercise->getCreatorId(),
-      $exercise->getIsPrivate(),
+      $exercise->getIsPrivate() ? 1 : 0,
       $exercise->getImageUrl(),
     ]);
   }
 
-  public function updateExercise($exercise, $user_id)
+  public function updateExercise($exercise)
   {
     $query = $this->database->connect()->prepare('
-      UPDATE exercises SET name = :name, category_id = :category_id, description = :description, video_url = :video_url, is_private = :is_private, image_url = :image_url WHERE id = :id AND creator_id = :user_id'
+            UPDATE exercises SET name = :name, category_id = :category_id, description = :description, video_url = :video_url, is_private = :is_private, image_url = :image_url 
+            WHERE id = :id'
     );
 
-    $query->execute([
-      $exercise->getName(),
-      $exercise->getCategoryId(),
-      $exercise->getDescription(),
-      $exercise->getVideoUrl(),
-      $exercise->getCreatorId(),
-      $exercise->getIsPrivate(),
-      $exercise->getImageUrl(),
-      $exercise->getCreatorId(),
-      $exercise->getIsPrivate(),
-      $exercise->getImageUrl(),
-    ]);
+    $query->bindValue(':name', $exercise->getName(), PDO::PARAM_STR);
+    $query->bindValue(':category_id', $exercise->getCategoryId(), PDO::PARAM_INT);
+    $query->bindValue(':description', $exercise->getDescription(), PDO::PARAM_STR);
+    $query->bindValue(':video_url', $exercise->getVideoUrl(), PDO::PARAM_STR);
+    $query->bindValue(':is_private', $exercise->getIsPrivate() ? 1 : 0, PDO::PARAM_BOOL);
+    $query->bindValue(':image_url', $exercise->getImageUrl(), PDO::PARAM_STR);
+    $query->bindValue(':id', $exercise->getId(), PDO::PARAM_INT);
+    $query->execute();
   }
 
-  public function deleteExercise($exercise_id, $user_id)
+  public function deleteExercise($exercise_id)
   {
     $query = $this->database->connect()->prepare('
-      DELETE FROM exercises WHERE id = :exercise_id AND creator_id = :user_id
-    ');
+            DELETE FROM exercises WHERE id = :exercise_id
+        ');
 
     $query->bindValue(':exercise_id', $exercise_id, PDO::PARAM_INT);
-    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
     $query->execute();
   }
 }
