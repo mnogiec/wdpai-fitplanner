@@ -71,6 +71,10 @@ body {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+.text-area {
+  resize: vertical;
+}
+
 .btn {
   border: none;
   border-radius: 0.8rem;
@@ -233,6 +237,14 @@ body {
 
 /* OTHER */
 
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
 .modal {
   position: fixed;
   z-index: 1000;
@@ -242,11 +254,17 @@ body {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-text {
+  margin-top: 2rem;
 }
 
 .modal-content {
   background-color: white;
-  margin: 10% auto;
   padding: 2rem;
   border: 0.1rem solid #888;
   width: 80%;
@@ -259,6 +277,16 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.modal-footer {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-footer > * {
+  flex: 1;
 }
 
 .close {
@@ -275,8 +303,4 @@ body {
 
 .hidden {
   display: none;
-}
-
-.modal-text {
-  margin-top: 2rem;
 }

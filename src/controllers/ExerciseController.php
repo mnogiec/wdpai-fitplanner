@@ -25,7 +25,8 @@ class ExerciseController extends AppController
         $this->loginRequired();
         return $this->render('exercises_base', [
             'groupedExercises' => $this->exerciseRepository->getExercisesBase(),
-            'isAdmin' => $this->getLoggedUser()->isAdmin()
+            'isAdmin' => $this->getLoggedUser()->isAdmin(),
+            'categories' => $this->exerciseCategoryRepository->getAllExerciseCategories()
         ]);
     }
 
@@ -36,35 +37,72 @@ class ExerciseController extends AppController
         }
 
         $this->loginRequired();
-        return $this->render('private_exercises', ['groupedExercises' => $this->exerciseRepository->getPrivateExercises($this->getLoggedUser()->getId())]);
+        return $this->render('private_exercises', [
+            'groupedExercises' => $this->exerciseRepository->getPrivateExercises($this->getLoggedUser()->getId()),
+            'categories' => $this->exerciseCategoryRepository->getAllExerciseCategories()
+        ]);
 
     }
 
-    public function create_private_exercise()
+    public function create_exercise()
     {
         if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
-        // TODO: Implement
+        $exercise = new Exercise(
+            null,
+            $_POST['name'],
+            $_POST['category'],
+            $_POST['description'],
+            $_POST['video_url'],
+            $this->getLoggedUser()->getId(),
+            false,
+            $_POST['image_url']
+        );
+
+        $this->exerciseRepository->createExercise($exercise);
+        http_response_code(201);
     }
 
-    public function update_private_exercise()
+    public function update_exercise()
     {
         if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
             return;
         }
 
-        // TODO: Implement
+        $patchVars = json_decode(file_get_contents('php://input'), true);
+
+        $exercise = new Exercise(
+            $patchVars['exercise_id'],
+            $patchVars['name'],
+            $patchVars['category'],
+            $patchVars['description'],
+            $patchVars['video_url'],
+            $this->getLoggedUser()->getId(),
+            false,
+            $patchVars['image_url']
+        );
+
+        $this->exerciseRepository->updateExercise($exercise);
+
+        http_response_code(204);
     }
 
-    public function delete_private_exercise()
+    public function delete_exercise()
     {
         if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
+            error_log('Unauthorized delete attempt');
+            http_response_code(401);
             return;
         }
 
-        // TODO: Implement
-    }
+        $data = json_decode(file_get_contents('php://input'), true);
 
+        $exercise_id = $data['exercise_id'];
+
+        $this->exerciseRepository->deleteExercise($exercise_id);
+
+        http_response_code(204);
+    }
 }

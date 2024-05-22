@@ -53,7 +53,7 @@ class Exercise
     return $this->creatorId;
   }
 
-  public function isPrivate()
+  public function getIsPrivate()
   {
     return $this->isPrivate;
   }

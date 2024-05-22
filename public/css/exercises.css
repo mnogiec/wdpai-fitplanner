@@ -96,3 +96,19 @@
 .exercises-not-found {
   margin-top: 5rem;
 }
+
+.exercises-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.exercises-form input {
+  height: 3rem;
+}
+
+.exercises-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
