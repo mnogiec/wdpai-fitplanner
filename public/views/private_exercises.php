@@ -17,6 +17,7 @@
   <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
   <main class="main">
+    <div class="hidden" id="is_private_exercises"></div>
     <div id="exerciseModal" class="modal hidden">
       <div class="modal-content">
         <div class="modal-topbar">
@@ -141,6 +142,7 @@
   </main>
   <script src="public/scripts/exerciseDetailsModal.js"></script>
   <script src="public/scripts/manageExercises.js"></script>
+  <script src="public/scripts/searchExercises.js"></script>
 </body>
 
 </html>

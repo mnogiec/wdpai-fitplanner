@@ -27,6 +27,8 @@ Router::delete('delete_workout', 'WorkoutController');
 // Exercises
 Router::get('exercises_base', 'ExerciseController');
 Router::get('private_exercises', 'ExerciseController');
+Router::get('search_exercises_base', 'ExerciseController');
+Router::get('search_private_exercises', 'ExerciseController');
 Router::post('create_exercise', 'ExerciseController');
 Router::patch('update_exercise', 'ExerciseController');
 Router::delete('delete_exercise', 'ExerciseController');
