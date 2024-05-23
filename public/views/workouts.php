@@ -55,18 +55,19 @@
                 <?php else: ?>
                   <?php foreach ($exercises as $exercise): ?>
                     <div class="workouts-unit">
-                      <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png"
-                        alt="Exercise image" class="workouts-image" />
+                      <img src="<?php echo htmlspecialchars($exercise->getExercise()->getImageUrl()); ?>"
+                        alt="<?php echo htmlspecialchars($exercise->getExercise()->getName()); ?>" class="workouts-image" />
                       <div class="workouts-text">
                         <p class="font-medium text-lg">
-                          <?php echo $exercise->getExerciseId(); // Replace with actual exercise name ?>
+                          <?php echo htmlspecialchars($exercise->getExercise()->getName()); ?>
                         </p>
                         <div class="workouts-details">
-                          <p class="text-gray workouts-info">Sets: <?php echo $exercise->getSets(); ?></p>
-                          <p class="text-gray workouts-info">Reps: <?php echo $exercise->getReps(); ?></p>
-                          <p class="text-gray workouts-info">Weight: <?php echo $exercise->getWeight(); ?>kg</p>
+                          <p class="text-gray workouts-info">Sets: <?php echo htmlspecialchars($exercise->getSets()); ?></p>
+                          <p class="text-gray workouts-info">Reps: <?php echo htmlspecialchars($exercise->getReps()); ?></p>
+                          <p class="text-gray workouts-info">Weight: <?php echo htmlspecialchars($exercise->getWeight()); ?>kg
+                          </p>
                           <p class="text-gray workouts-info workouts-info--long">Volume:
-                            <?php echo $exercise->getSets() * $exercise->getReps() * $exercise->getWeight(); ?>kg
+                            <?php echo htmlspecialchars($exercise->getSets() * $exercise->getReps() * $exercise->getWeight()); ?>kg
                           </p>
                         </div>
                       </div>
