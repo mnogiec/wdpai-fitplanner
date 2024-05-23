@@ -10,8 +10,9 @@ class Exercise
   public $creatorId;
   public $isPrivate;
   public $imageUrl;
+  public $ExerciseCategory;
 
-  public function __construct($id, $name, $categoryId, $description, $videoUrl, $creatorId, $isPrivate, $imageUrl)
+  public function __construct($id, $name, $categoryId, $description, $videoUrl, $creatorId, $isPrivate, $imageUrl, $exerciseCategory = null)
   {
     $this->id = $id;
     $this->name = $name;
@@ -21,6 +22,7 @@ class Exercise
     $this->creatorId = $creatorId;
     $this->isPrivate = $isPrivate;
     $this->imageUrl = $imageUrl;
+    $this->exerciseCategory = $exerciseCategory;
   }
 
   public function getId()
@@ -61,5 +63,10 @@ class Exercise
   public function getImageUrl()
   {
     return $this->imageUrl;
+  }
+
+  public function getExerciseCategory()
+  {
+    return $this->ExerciseCategory;
   }
 }
