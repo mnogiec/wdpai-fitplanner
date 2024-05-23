@@ -16,37 +16,6 @@ class ExerciseController extends AppController
         $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
     }
 
-    public function search_exercises_base()
-    {
-        if (!$this->isGet()) {
-            return;
-        }
-
-        $this->loginRequired();
-
-        $searchTerm = isset($_GET['q']) ? $_GET['q'] : '';
-        $exercises = $this->exerciseRepository->searchExercisesBase($searchTerm);
-
-        header('Content-Type: application/json');
-        echo json_encode($exercises);
-    }
-
-    public function search_private_exercises()
-    {
-        if (!$this->isGet()) {
-            return;
-        }
-
-        $this->loginRequired();
-
-        $searchTerm = isset($_GET['q']) ? $_GET['q'] : '';
-        $userId = $this->getLoggedUser()->getId();
-        $exercises = $this->exerciseRepository->searchPrivateExercises($searchTerm, $userId);
-
-        header('Content-Type: application/json');
-        echo json_encode($exercises);
-    }
-
     public function exercises_base()
     {
         if (!$this->isGet()) {
@@ -61,6 +30,21 @@ class ExerciseController extends AppController
         ]);
     }
 
+    public function search_exercises_base()
+    {
+        if (!$this->isGet()) {
+            return;
+        }
+
+        $this->loginRequired();
+
+        $searchTerm = isset($_GET['q']) ? $_GET['q'] : '';
+        $exercises = $this->exerciseRepository->getExercisesBase($searchTerm);
+
+        header('Content-Type: application/json');
+        echo json_encode($exercises);
+    }
+
     public function private_exercises()
     {
         if (!$this->isGet()) {
@@ -72,7 +56,22 @@ class ExerciseController extends AppController
             'groupedExercises' => $this->exerciseRepository->getPrivateExercises($this->getLoggedUser()->getId()),
             'categories' => $this->exerciseCategoryRepository->getAllExerciseCategories()
         ]);
+    }
 
+    public function search_private_exercises()
+    {
+        if (!$this->isGet()) {
+            return;
+        }
+
+        $this->loginRequired();
+
+        $searchTerm = isset($_GET['q']) ? $_GET['q'] : null;
+        $userId = $this->getLoggedUser()->getId();
+        $exercises = $this->exerciseRepository->getPrivateExercises($userId, $searchTerm);
+
+        header('Content-Type: application/json');
+        echo json_encode($exercises);
     }
 
     public function create_exercise()

@@ -36,94 +36,25 @@ class ExerciseRepository extends Repository
     return $exercises;
   }
 
-
-  public function getPrivateExercises($user_id)
+  public function getExercisesBase($searchTerm = null)
   {
-    $query = $this->database->connect()->prepare('
-    SELECT 
-      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name  
-    FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = true AND e.creator_id = :user_id'
-    );
-
-    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $query->execute();
-
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    $groupedExercises = [];
-    foreach ($result as $row) {
-      $exercise = new Exercise(
-        $row['id'],
-        $row['name'],
-        $row['category_id'],
-        $row['description'],
-        $row['video_url'],
-        $row['creator_id'],
-        $row['is_private'],
-        $row['image_url'],
-      );
-
-      $categoryName = $row['category_name'];
-
-      if (!isset($groupedExercises[$categoryName])) {
-        $groupedExercises[$categoryName] = [];
-      }
-
-      $groupedExercises[$categoryName][] = $exercise;
-    }
-
-    return $groupedExercises;
-  }
-  public function searchPrivateExercises($searchTerm, $user_id)
-  {
-    $query = $this->database->connect()->prepare('
-    SELECT 
-      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name  
-    FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = true AND e.creator_id = :user_id AND e.name ILIKE :searchTerm'
-    );
-
-    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $query->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
-    $query->execute();
-
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    $groupedExercises = [];
-    foreach ($result as $row) {
-      $exercise = new Exercise(
-        $row['id'],
-        $row['name'],
-        $row['category_id'],
-        $row['description'],
-        $row['video_url'],
-        $row['creator_id'],
-        $row['is_private'],
-        $row['image_url'],
-      );
-
-      $categoryName = $row['category_name'];
-
-      if (!isset($groupedExercises[$categoryName])) {
-        $groupedExercises[$categoryName] = [];
-      }
-
-      $groupedExercises[$categoryName][] = $exercise;
-    }
-
-
-    return $groupedExercises;
-  }
-
-  public function getExercisesBase()
-  {
-    $query = $this->database->connect()->prepare('
+    $sql = '
       SELECT 
       e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
       c.name as category_name
-      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = false'
-    );
+      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id
+      WHERE e.is_private = false
+    ';
+
+    if ($searchTerm) {
+      $sql .= ' AND e.name ILIKE :searchTerm';
+    }
+
+    $query = $this->database->connect()->prepare($sql);
+
+    if ($searchTerm) {
+      $query->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+    }
 
     $query->execute();
 
@@ -151,20 +82,31 @@ class ExerciseRepository extends Repository
       $groupedExercises[$categoryName][] = $exercise;
     }
 
-
     return $groupedExercises;
   }
 
-  public function searchExercisesBase($searchTerm)
+  public function getPrivateExercises($userId, $searchTerm = null)
   {
-    $query = $this->database->connect()->prepare('
+    $sql = '
       SELECT 
       e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name
-      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE e.is_private = false AND e.name ILIKE :searchTerm'
-    );
+      c.name as category_name  
+      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id
+      WHERE e.is_private = true AND e.creator_id = :user_id
+    ';
 
-    $query->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+    if ($searchTerm) {
+      $sql .= ' AND e.name ILIKE :searchTerm';
+    }
+
+    $query = $this->database->connect()->prepare($sql);
+
+    $query->bindValue(':user_id', $userId, PDO::PARAM_INT);
+
+    if ($searchTerm) {
+      $query->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+    }
+
     $query->execute();
 
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
