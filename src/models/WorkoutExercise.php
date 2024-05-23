@@ -1,24 +1,24 @@
 <?php
 
-class Workout
+class WorkoutExercise
 {
   public $id;
   public $exerciseId;
-  public $userId;
-  public $date;
+  public $workoutDayId;
   public $sets;
   public $reps;
   public $weight;
+  public $Exercise;
 
-  public function __construct($id, $exerciseId, $userId, $date, $sets, $reps, $weight)
+  public function __construct($id, $exerciseId, $workoutDayId, $sets, $reps, $weight, $exercise = null)
   {
     $this->id = $id;
     $this->exerciseId = $exerciseId;
-    $this->userId = $userId;
-    $this->date = $date;
+    $this->workoutDayId = $workoutDayId;
     $this->sets = $sets;
     $this->reps = $reps;
     $this->weight = $weight;
+    $this->Exercise = $exercise;
   }
 
   public function getId()
@@ -30,15 +30,14 @@ class Workout
   {
     return $this->exerciseId;
   }
-
-  public function getUserId()
+  public function getExercise()
   {
-    return $this->userId;
+    return $this->Exercise;
   }
 
-  public function getDate()
+  public function getWorkoutDayId()
   {
-    return $this->date;
+    return $this->workoutDayId;
   }
 
   public function getSets()

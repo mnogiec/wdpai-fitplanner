@@ -1,7 +1,7 @@
 <?php
 
 require_once 'AppController.php';
-// require_once __DIR__ . '/../repository/WorkoutRepository.php';
+require_once __DIR__ . '/../repository/WorkoutRepository.php';
 require_once __DIR__ . '/../repository/ExerciseRepository.php';
 require_once __DIR__ . '/../repository/ExerciseCategoryRepository.php';
 
@@ -14,7 +14,7 @@ class WorkoutController extends AppController
     public function __construct()
     {
         parent::__construct();
-        // $this->workoutRepository = new WorkoutRepository();
+        $this->workoutRepository = new WorkoutRepository();
         $this->exerciseRepository = new ExerciseRepository();
         $this->exerciseCategoryRepository = new ExerciseCategoryRepository();
     }
@@ -26,10 +26,12 @@ class WorkoutController extends AppController
         }
 
         $this->loginRequired();
-        return $this->render('workouts');
+        $userId = $this->getSession()->getUserId();
+        $workouts = $this->workoutRepository->getUserWorkouts($userId);
+        return $this->render('workouts', ["days" => $workouts]);
     }
 
-    public function createWorkout()
+    public function create_workout()
     {
         if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
             return;
@@ -38,7 +40,7 @@ class WorkoutController extends AppController
         // TODO: Implement
     }
 
-    public function updateWorkout()
+    public function update_workout()
     {
         if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
             return;
@@ -47,7 +49,7 @@ class WorkoutController extends AppController
         // TODO: Implement
     }
 
-    public function deleteWorkout()
+    public function delete_workout()
     {
         if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
             return;

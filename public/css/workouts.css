@@ -1,0 +1,78 @@
+.workouts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.workouts-days-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+  align-items: center;
+}
+
+.workouts-day-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 80%;
+  max-width: 80rem;
+  padding: 1rem 2rem;
+  border-radius: 1.6rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d4d4d4;
+}
+
+.workouts-units-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.workouts-unit {
+  display: flex;
+  padding-left: 1rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.workouts-image {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 0.4rem;
+  object-fit: cover;
+  align-self: center;
+}
+
+.workouts-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.workouts-details {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex: 1;
+}
+
+.workouts-info {
+  width: 11rem;
+}
+
+.workouts-info--long {
+  width: auto;
+}
+
+.workouts-manage-wrapper {
+  display: flex;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.workouts-not-found {
+  margin-top: 3rem;
+}
