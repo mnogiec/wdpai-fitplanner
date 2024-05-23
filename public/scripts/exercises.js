@@ -207,7 +207,7 @@ function searchExercises() {
     exercisesWrapper.innerHTML = "";
     if (Object.keys(exercises).length === 0) {
       exercisesWrapper.innerHTML =
-        '<p class="exercises-not-found text-lg text-red-500">No exercises found</p>';
+        '<p class="exercises-not-found text-gray text-center">No exercises found</p>';
       return;
     }
 
