@@ -20,10 +20,34 @@
     <div class="workouts-container">
       <h1 class="text-4xl font-bold">Your workouts</h1>
       <div class="workouts-days-wrapper">
+        <?php
+        $today = date('Y-m-d');
+        $todayFormatted = date('j.m.Y');
+        ?>
+
+        <?php if (empty($days) || !isset($days[$today])): ?>
+          <div class="workouts-day-box">
+            <p class="font-medium text-xl">Today <?php echo $todayFormatted; ?></p>
+
+            <div class="workouts-units-wrapper">
+              <p class="workouts-not-found text-gray text-center">You don't have any exercises done today</p>
+            </div>
+
+            <div class="workouts-manage-wrapper">
+              <button type="button" class="btn" id="manageWorkoutBtn">
+                Add exercise
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        <?php endif; ?>
+
         <?php if ($days): ?>
           <?php foreach ($days as $date => $exercises): ?>
             <div class="workouts-day-box">
-              <p class="font-medium text-xl"><?php echo date('l j.m.Y', strtotime($date)); ?></p>
+              <p class="font-medium text-xl">
+                <?php echo $date === $today ? "Today " . date('j.m.Y') : date('l j.m.Y', strtotime($date)); ?>
+              </p>
 
               <div class="workouts-units-wrapper">
                 <?php if (empty($exercises)): ?>
@@ -31,19 +55,18 @@
                 <?php else: ?>
                   <?php foreach ($exercises as $exercise): ?>
                     <div class="workouts-unit">
-                      <img src="<?php echo htmlspecialchars($exercise->getExercise()->getImageUrl()) ?>" alt="Exercise image"
-                        class="workouts-image" />
+                      <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png"
+                        alt="Exercise image" class="workouts-image" />
                       <div class="workouts-text">
                         <p class="font-medium text-lg">
-                          <?php echo htmlspecialchars($exercise->getExercise()->getName()); ?>
+                          <?php echo $exercise->getExerciseId(); // Replace with actual exercise name ?>
                         </p>
                         <div class="workouts-details">
-                          <p class="text-gray workouts-info">Sets: <?php echo htmlspecialchars($exercise->getSets()); ?></p>
-                          <p class="text-gray workouts-info">Reps: <?php echo htmlspecialchars($exercise->getReps()); ?></p>
-                          <p class="text-gray workouts-info">Weight: <?php echo htmlspecialchars($exercise->getWeight()); ?>kg
-                          </p>
+                          <p class="text-gray workouts-info">Sets: <?php echo $exercise->getSets(); ?></p>
+                          <p class="text-gray workouts-info">Reps: <?php echo $exercise->getReps(); ?></p>
+                          <p class="text-gray workouts-info">Weight: <?php echo $exercise->getWeight(); ?>kg</p>
                           <p class="text-gray workouts-info workouts-info--long">Volume:
-                            <?php echo htmlspecialchars($exercise->getSets() * $exercise->getReps() * $exercise->getWeight()); ?>kg
+                            <?php echo $exercise->getSets() * $exercise->getReps() * $exercise->getWeight(); ?>kg
                           </p>
                         </div>
                       </div>
@@ -66,133 +89,6 @@
       </div>
     </div>
   </main>
-
-  <!-- <main class="main">
-    <div class="workouts-container">
-      <h1 class="text-4xl font-bold">Your workouts</h1>
-      <div class="workouts-days-wrapper">
-        <div class="workouts-day-box">
-          <p class="font-medium text-xl">Today 7.04.2024</p>
-
-          <div class="workouts-units-wrapper">
-            <p class="workouts-not-found text-gray text-center">You don't have any exercises done today</p>
-          </div>
-
-          <div class="workouts-manage-wrapper">
-            <button type="button" class="btn" id="manageWorkoutBtn">
-              Add exercise
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="workouts-day-box">
-          <p class="font-medium text-xl">Friday 5.04.2024</p>
-
-          <div class="workouts-units-wrapper">
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="workouts-manage-wrapper">
-            <button type="button" class="btn" id="manageWorkoutBtn">
-              Manage this day
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="workouts-day-box">
-          <p class="font-medium text-xl">Wednesday 3.04.2024</p>
-
-          <div class="workouts-units-wrapper">
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-            <div class="workouts-unit">
-              <img src="https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png" alt="Running"
-                class="workouts-image" />
-              <div class="workouts-text">
-                <p class="font-medium text-lg">Bench press</p>
-                <div class="workouts-details">
-                  <p class="text-gray workouts-info">Sets: 4</p>
-                  <p class="text-gray workouts-info">Reps: 10</p>
-                  <p class="text-gray workouts-info">Weight: 85kg</p>
-                  <p class="text-gray workouts-info workouts-info--long">Volume: 3400kg</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="workouts-manage-wrapper">
-            <button type="button" class="btn" id="manageWorkoutBtn">
-              Manage this day
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main> -->
 
   <script src="public/scripts/workouts.js"></script>
 </body>

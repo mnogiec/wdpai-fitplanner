@@ -16,6 +16,7 @@ class WorkoutRepository extends Repository
         JOIN workout_exercises we ON wd.id = we.workout_day_id
         JOIN exercises e ON e.id = we.exercise_id
         WHERE wd.user_id = :userId
+        ORDER BY wd.date DESC
     ');
 
     $query->bindParam(':userId', $userId, PDO::PARAM_INT);
