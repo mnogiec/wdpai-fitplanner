@@ -17,6 +17,9 @@
   <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
   <main class="main">
+    <?php if ($isAdmin): ?>
+      <div class="hidden" id="is_admin"></div>
+    <?php endif; ?>
     <div id="exerciseModal" class="modal hidden">
       <div class="modal-content">
         <div class="modal-topbar">
@@ -143,9 +146,7 @@
       </div>
     </div>
   </main>
-  <script src="public/scripts/exerciseDetailsModal.js"></script>
-  <script src="public/scripts/manageExercises.js"></script>
-  <script src="public/scripts/searchExercises.js"></script>
+  <script src="public/scripts/exercises.js"></script>
 </body>
 
 </html>

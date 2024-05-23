@@ -140,9 +140,7 @@
       </div>
     </div>
   </main>
-  <script src="public/scripts/exerciseDetailsModal.js"></script>
-  <script src="public/scripts/manageExercises.js"></script>
-  <script src="public/scripts/searchExercises.js"></script>
+  <script src="public/scripts/exercises.js"></script>
 </body>
 
 </html>
