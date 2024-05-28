@@ -89,9 +89,13 @@
       <div class="exercises-topbar">
         <h1 class="text-4xl font-bold">Private exercises</h1>
         <div class="exercises-topbar-right">
-          <button type="button" class="btn" id="addExerciseBtn">
-            Add exercise
-            <i class="fa-solid fa-plus"></i>
+          <button type="button" class="btn exercises-add-button" id="addExerciseBtn">
+            <span>
+              <span class="exercises-add-text">
+                Add exercise
+              </span>
+              <i class="fa-solid fa-plus"></i>
+            </span>
           </button>
           <input type="text" placeholder="Search by exercise name" class="exercises-search-input text-input" />
         </div>
