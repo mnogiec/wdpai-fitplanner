@@ -76,3 +76,40 @@
 .workouts-not-found {
   margin-top: 3rem;
 }
+
+.workouts-edit-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.workouts-edit-input-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.workouts-edit-input {
+  width: 7rem;
+}
+
+.workouts-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.workouts-action-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.workouts-action-button i {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+}
+
+.workouts-exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

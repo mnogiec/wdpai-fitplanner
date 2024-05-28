@@ -36,6 +36,19 @@ class ExerciseRepository extends Repository
     return $exercises;
   }
 
+  public function getExercisesByCategory($categoryId)
+  {
+    $query = $this->database->connect()->prepare('
+        SELECT id, name
+        FROM exercises
+        WHERE category_id = :categoryId
+    ');
+    $query->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+    $query->execute();
+
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   public function getExercisesBase($searchTerm = null)
   {
     $sql = '

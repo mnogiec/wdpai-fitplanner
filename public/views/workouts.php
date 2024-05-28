@@ -16,6 +16,42 @@
   <?php include_once __DIR__ . '/shared/header.php' ?>
   <?php include_once __DIR__ . '/shared/side-menu.php' ?>
 
+  <div id="manageDayModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-topbar">
+        <h3 class="modal-title font-bold text-2xl"></h3>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="exercisesList" class="workouts-exercises-list"></div>
+        <button id="addExerciseBtn">Add Exercise</button>
+        <div id="addExerciseForm" class="hidden">
+          <select id="exerciseCategory">
+            <option value="">Select Category</option>
+            <!-- Categories will be populated dynamically -->
+          </select>
+          <select id="exerciseName" class="hidden">
+            <option value="">Select Exercise</option>
+            <!-- Exercises will be populated dynamically -->
+          </select>
+          <div class="workouts-edit-input-box">
+            <label for="new-sets">Sets:</label>
+            <input type="number" id="new-sets" name="new-sets" class="workouts-edit-input" />
+          </div>
+          <div class="workouts-edit-input-box">
+            <label for="new-reps">Reps:</label>
+            <input type="number" id="new-reps" name="new-reps" class="workouts-edit-input" />
+          </div>
+          <div class="workouts-edit-input-box">
+            <label for="new-weight">Weight:</label>
+            <input type="number" id="new-weight" name="new-weight" class="workouts-edit-input" />
+          </div>
+          <button id="saveNewExerciseBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="main">
     <div class="workouts-container">
       <h1 class="text-4xl font-bold">Your workouts</h1>
@@ -43,18 +79,19 @@
         <?php endif; ?>
 
         <?php if ($days): ?>
-          <?php foreach ($days as $date => $exercises): ?>
+          <?php foreach ($days as $date => $day): ?>
             <div class="workouts-day-box">
               <p class="font-medium text-xl">
                 <?php echo $date === $today ? "Today " . date('j.m.Y') : date('l j.m.Y', strtotime($date)); ?>
               </p>
 
               <div class="workouts-units-wrapper">
-                <?php if (empty($exercises)): ?>
+                <?php if (empty($day['exercises'])): ?>
                   <p class="workouts-not-found text-gray text-center">You don't have any exercises done today</p>
                 <?php else: ?>
-                  <?php foreach ($exercises as $exercise): ?>
-                    <div class="workouts-unit">
+                  <?php foreach ($day['exercises'] as $exercise): ?>
+                    <div class="workouts-unit exercise-item og-data"
+                      data-id="<?php echo htmlspecialchars($exercise->getId()); ?>">
                       <img src="<?php echo htmlspecialchars($exercise->getExercise()->getImageUrl()); ?>"
                         alt="<?php echo htmlspecialchars($exercise->getExercise()->getName()); ?>" class="workouts-image" />
                       <div class="workouts-text">
@@ -62,11 +99,19 @@
                           <?php echo htmlspecialchars($exercise->getExercise()->getName()); ?>
                         </p>
                         <div class="workouts-details">
-                          <p class="text-gray workouts-info">Sets: <?php echo htmlspecialchars($exercise->getSets()); ?></p>
-                          <p class="text-gray workouts-info">Reps: <?php echo htmlspecialchars($exercise->getReps()); ?></p>
-                          <p class="text-gray workouts-info">Weight: <?php echo htmlspecialchars($exercise->getWeight()); ?>kg
+                          <p class="text-gray workouts-info" id="sets"
+                            data-id="<?php echo htmlspecialchars($exercise->getId()); ?>">Sets:
+                            <?php echo htmlspecialchars($exercise->getSets()); ?>
                           </p>
-                          <p class="text-gray workouts-info workouts-info--long">Volume:
+                          <p class="text-gray workouts-info" id="reps"
+                            data-id="<?php echo htmlspecialchars($exercise->getId()); ?>">Reps:
+                            <?php echo htmlspecialchars($exercise->getReps()); ?>
+                          </p>
+                          <p class="text-gray workouts-info" id="weight"
+                            data-id="<?php echo htmlspecialchars($exercise->getId()); ?>">Weight:
+                            <?php echo htmlspecialchars($exercise->getWeight()); ?>kg
+                          </p>
+                          <p class="text-gray workouts-info workouts-info--long" id="volume">Volume:
                             <?php echo htmlspecialchars($exercise->getSets() * $exercise->getReps() * $exercise->getWeight()); ?>kg
                           </p>
                         </div>
@@ -77,8 +122,10 @@
               </div>
 
               <div class="workouts-manage-wrapper">
-                <button type="button" class="btn" id="manageWorkoutBtn">
-                  <?php echo empty($exercises) ? 'Add exercise' : 'Manage this day'; ?>
+                <button type="button" class="btn" id="manageWorkoutBtn" data-date="<?php echo $date; ?>"
+                  data-workout-day-id="<?php echo $day['day_id']; ?>"
+                  data-exercises='<?php echo json_encode($day['exercises']); ?>'>
+                  <?php echo empty($day['exercises']) ? 'Add exercise' : 'Manage this day'; ?>
                   <i class="fa-solid fa-plus"></i>
                 </button>
               </div>
