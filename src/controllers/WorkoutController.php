@@ -33,7 +33,7 @@ class WorkoutController extends AppController
 
     public function get_categories()
     {
-        if (!$this->isGet() || !$this->getSession()->isLoggedIn()) {
+        if (!$this->isGet()) {
             return;
         }
 
@@ -44,11 +44,16 @@ class WorkoutController extends AppController
 
     public function get_exercises_by_category()
     {
-        if (!$this->isGet() || !$this->getSession()->isLoggedIn()) {
+        if (!$this->isGet()) {
             return;
         }
 
         $categoryId = $_GET['category_id'];
+        if ($categoryId === null) {
+            http_response_code(400);
+            return;
+        }
+
         $exercises = $this->exerciseRepository->getExercisesByCategory($categoryId);
         header('Content-Type: application/json');
         echo json_encode($exercises);
@@ -57,60 +62,74 @@ class WorkoutController extends AppController
     public function create_workout()
     {
         if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
         $data = json_decode(file_get_contents('php://input'), true);
-        $workoutDayId = $data['workout_day_id'];
-        $exerciseId = $data['exerciseId'];
-        $sets = $data['sets'];
-        $reps = $data['reps'];
-        $weight = $data['weight'];
+        if (!isset($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight'])) {
+            http_response_code(400);
+            return;
+        }
 
-        // Assuming you have a method in your repository to add the exercise
-        $this->workoutRepository->addExercise($workoutDayId, $exerciseId, $sets, $reps, $weight);
+        $this->workoutRepository->addExercise($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight']);
 
         header('Content-Type: application/json');
+        http_response_code(201);
         echo json_encode(['success' => true]);
     }
 
     public function create_workout_day()
     {
         if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
         $data = json_decode(file_get_contents('php://input'), true);
-        $workoutDayDate = $data['date'];
+        if (!isset($data['date'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Date is required']);
+            return;
+        }
 
-        $day = $this->workoutRepository->addDay($workoutDayDate, $this->getSession()->getUserID());
+        $day = $this->workoutRepository->addDay($data['date'], $this->getSession()->getUserID());
 
         header('Content-Type: application/json');
+        http_response_code(201);
         echo json_encode(["id" => $day->getId()]);
     }
 
     public function update_workout()
     {
         if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
         $data = json_decode(file_get_contents('php://input'), true);
-        $exerciseId = $data['id'];
-        $sets = $data['sets'];
-        $reps = $data['reps'];
-        $weight = $data['weight'];
+        if (!isset($data['id'], $data['sets'], $data['reps'], $data['weight'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing required parameters']);
+            return;
+        }
 
-        $this->workoutRepository->updateExerciseById($exerciseId, $sets, $reps, $weight);
+        $this->workoutRepository->updateExerciseById($data['id'], $data['sets'], $data['reps'], $data['weight']);
+        http_response_code(204);
     }
 
     public function delete_workout()
     {
         if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
-        $exerciseId = $_GET['id'];
+        $exerciseId = $_GET['id'] ?? null;
+        if ($exerciseId === null) {
+            http_response_code(400);
+            return;
+        }
 
         $this->workoutRepository->deleteExerciseById($exerciseId);
         http_response_code(204);

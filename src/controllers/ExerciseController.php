@@ -38,7 +38,7 @@ class ExerciseController extends AppController
 
         $this->loginRequired();
 
-        $searchTerm = isset($_GET['q']) ? $_GET['q'] : '';
+        $searchTerm = $_GET['q'] ?? '';
         $exercises = $this->exerciseRepository->getExercisesBase($searchTerm);
 
         header('Content-Type: application/json');
@@ -66,7 +66,7 @@ class ExerciseController extends AppController
 
         $this->loginRequired();
 
-        $searchTerm = isset($_GET['q']) ? $_GET['q'] : null;
+        $searchTerm = $_GET['q'] ?? '';
         $userId = $this->getLoggedUser()->getId();
         $exercises = $this->exerciseRepository->getPrivateExercises($userId, $searchTerm);
 
@@ -77,6 +77,7 @@ class ExerciseController extends AppController
     public function create_exercise()
     {
         if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
@@ -98,10 +99,16 @@ class ExerciseController extends AppController
     public function update_exercise()
     {
         if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
         $patchVars = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($patchVars['exercise_id'])) {
+            http_response_code(400);
+            return;
+        }
 
         $exercise = new Exercise(
             $patchVars['exercise_id'],
@@ -122,16 +129,18 @@ class ExerciseController extends AppController
     public function delete_exercise()
     {
         if (!$this->isDelete() || !$this->getSession()->isLoggedIn()) {
-            error_log('Unauthorized delete attempt');
             http_response_code(401);
             return;
         }
 
         $data = json_decode(file_get_contents('php://input'), true);
 
-        $exercise_id = $data['exercise_id'];
+        if (!isset($data['exercise_id'])) {
+            http_response_code(400);
+            return;
+        }
 
-        $this->exerciseRepository->deleteExercise($exercise_id);
+        $this->exerciseRepository->deleteExercise($data['exercise_id']);
 
         http_response_code(204);
     }

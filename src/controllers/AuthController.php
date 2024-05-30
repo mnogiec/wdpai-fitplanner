@@ -17,20 +17,20 @@ class AuthController extends AppController
     public function register()
     {
         if ($this->isGet()) {
-            return $this->render('register');
+            $this->render('register');
+            return;
         }
 
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $repeatedPassword = $_POST['repeatedPassword'];
+        $firstName = $_POST['firstName'] ?? '';
+        $lastName = $_POST['lastName'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $repeatedPassword = $_POST['repeatedPassword'] ?? '';
 
         if ($password !== $repeatedPassword) {
             $this->render('register', ['errorMessage' => 'Passwords are not the same!']);
             return;
         }
-
 
         try {
             $this->userRepository->createUser([
@@ -39,26 +39,25 @@ class AuthController extends AppController
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_BCRYPT)
             ]);
+            redirect('/login');
         } catch (Exception $e) {
+            $errorMessage = 'Something went wrong! Try later!';
             if (strpos($e->getMessage(), 'unique_email') !== false) {
-                $this->render('register', ['errorMessage' => 'User with this email already exists!']);
-            } else {
-                $this->render('register', ['errorMessage' => 'Something went wrong! Try later!']);
+                $errorMessage = 'User with this email already exists!';
             }
-            return;
+            $this->render('register', ['errorMessage' => $errorMessage]);
         }
-
-        redirect('/login');
     }
 
     public function login()
     {
         if ($this->isGet()) {
-            return $this->render('login');
+            $this->render('login');
+            return;
         }
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
 
         $user = $this->userRepository->getUser($email);
 
@@ -68,7 +67,6 @@ class AuthController extends AppController
         }
 
         $this->getSession()->setUserID($user->getId());
-
         redirect('/');
     }
 
