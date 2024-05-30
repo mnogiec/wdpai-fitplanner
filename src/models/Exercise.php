@@ -40,7 +40,7 @@ class Exercise
     return $this->categoryId;
   }
 
-  public function getDescription(): string
+  public function getDescription(): ?string
   {
     return $this->description;
   }
@@ -50,12 +50,12 @@ class Exercise
     return $this->videoUrl;
   }
 
-  public function getCreatorId(): int
+  public function getCreatorId(): ?int
   {
     return $this->creatorId;
   }
 
-  public function isPrivate(): bool
+  public function getIsPrivate(): bool
   {
     return $this->isPrivate;
   }
