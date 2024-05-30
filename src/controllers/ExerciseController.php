@@ -140,7 +140,7 @@ class ExerciseController extends AppController
             return;
         }
 
-        $this->exerciseRepository->deleteExercise($data['exercise_id']);
+        $this->exerciseRepository->deleteExerciseById($data['exercise_id']);
 
         http_response_code(204);
     }

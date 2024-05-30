@@ -184,7 +184,7 @@ class ExerciseRepository extends Repository
     $query->execute();
   }
 
-  public function deleteExercise($exercise_id)
+  public function deleteExerciseById($exercise_id)
   {
     $query = $this->database->connect()->prepare('
             DELETE FROM exercises WHERE id = :exercise_id

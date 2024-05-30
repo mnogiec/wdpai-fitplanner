@@ -61,7 +61,7 @@ class WorkoutRepository extends Repository
     return $workouts;
   }
 
-  public function addExercise($workoutDayId, $exerciseId, $sets, $reps, $weight)
+  public function createWorkoutExercise($workoutDayId, $exerciseId, $sets, $reps, $weight)
   {
     $query = $this->database->connect()->prepare('
         INSERT INTO workout_exercises (workout_day_id, exercise_id, sets, reps, weight)
@@ -75,7 +75,7 @@ class WorkoutRepository extends Repository
     $query->execute();
   }
 
-  public function addDay($workoutDay, $userId)
+  public function createWorkoutDay($workoutDay, $userId)
   {
     $query = $this->database->connect()->prepare('
         INSERT INTO workout_days (date, user_id)

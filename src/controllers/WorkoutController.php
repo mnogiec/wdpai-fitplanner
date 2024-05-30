@@ -72,7 +72,7 @@ class WorkoutController extends AppController
             return;
         }
 
-        $this->workoutRepository->addExercise($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight']);
+        $this->workoutRepository->createWorkoutExercise($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight']);
 
         header('Content-Type: application/json');
         http_response_code(201);
@@ -93,7 +93,7 @@ class WorkoutController extends AppController
             return;
         }
 
-        $day = $this->workoutRepository->addDay($data['date'], $this->getSession()->getUserID());
+        $day = $this->workoutRepository->createWorkoutDay($data['date'], $this->getSession()->getUserID());
 
         header('Content-Type: application/json');
         http_response_code(201);
