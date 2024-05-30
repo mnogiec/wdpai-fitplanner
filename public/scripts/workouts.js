@@ -5,15 +5,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const manageDayBtns = document.querySelectorAll("#manageWorkoutBtn");
   const addExerciseBtn = document.getElementById("addExerciseBtn");
   const addExerciseForm = document.getElementById("addExerciseForm");
+  const addExerciseWrapper = document.querySelector("#workouts-edit-wrapper");
   const saveNewExerciseBtn = document.getElementById("saveNewExerciseBtn");
   const exerciseCategory = document.getElementById("exerciseCategory");
   const exerciseName = document.getElementById("exerciseName");
+  const exerciseNameWrapper = document.getElementById("exerciseNameWrapper");
+  const setsInput = document.getElementById("new-sets");
+  const repsInput = document.getElementById("new-reps");
+  const weightInput = document.getElementById("new-weight");
   let currentWorkoutDayId;
+  let currentWorkoutDayDate;
   let categories = [];
 
   function closeModal() {
     modal.classList.add("hidden");
     addExerciseForm.classList.add("hidden");
+    addExerciseForm.classList.remove("workouts-exercises-form");
+    addExerciseBtn.classList.remove("hidden");
+    addExerciseWrapper.classList.add("hidden");
+    addExerciseWrapper.classList.remove("workouts-edit-wrapper");
+    exerciseNameWrapper.classList.add("hidden");
   }
 
   closeButton.addEventListener("click", closeModal);
@@ -28,6 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", function () {
       modalTitle.textContent = `Manage workout`;
       currentWorkoutDayId = this.dataset.workoutDayId;
+      currentWorkoutDayDate = this.dataset.date;
       const exercises = JSON.parse(this.dataset.exercises);
       populateExercises(exercises);
       modal.classList.remove("hidden");
@@ -36,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   addExerciseBtn.addEventListener("click", function () {
     addExerciseForm.classList.remove("hidden");
+    addExerciseForm.classList.add("workouts-exercises-form");
+    addExerciseBtn.classList.add("hidden");
     populateCategories();
   });
 
@@ -44,7 +58,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (categoryId) {
       populateExercisesByCategory(categoryId);
     } else {
-      exerciseName.classList.add("hidden");
+      exerciseNameWrapper.classList.add("hidden");
+    }
+  });
+
+  exerciseName.addEventListener("change", function () {
+    if (this.value) {
+      addExerciseWrapper.classList.remove("hidden");
+      addExerciseWrapper.classList.add("workouts-edit-wrapper");
     }
   });
 
@@ -60,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const exercisesList = document.getElementById("exercisesList");
     exercisesList.innerHTML = ""; // Clear existing exercises
 
-    exercises.forEach((exercise) => {
+    exercises?.forEach((exercise) => {
       const exerciseItem = document.createElement("div");
       exerciseItem.classList.add("exercise-item");
       exerciseItem.dataset.id = exercise.id;
@@ -75,15 +96,15 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="workouts-edit-wrapper">
               <div class="workouts-edit-input-box">
                 <label for="sets-${exercise.id}">Sets:</label>
-                <input type="number" id="sets-${exercise.id}" name="sets" value="${exercise.sets}" class="workouts-edit-input" />
+                <input type="number" id="sets-${exercise.id}" name="sets" value="${exercise.sets}" class="workouts-edit-input" min="1" />
               </div>
               <div class="workouts-edit-input-box">
                 <label for="reps-${exercise.id}">Reps:</label>
-                <input type="number" id="reps-${exercise.id}" name="reps" value="${exercise.reps}" class="workouts-edit-input" />
+                <input type="number" id="reps-${exercise.id}" name="reps" value="${exercise.reps}" class="workouts-edit-input" min="1" />
               </div>
               <div class="workouts-edit-input-box">
                 <label for="weight-${exercise.id}">Weight:</label>
-                <input type="number" id="weight-${exercise.id}" name="weight" value="${exercise.weight}" class="workouts-edit-input" />
+                <input type="number" id="weight-${exercise.id}" name="weight" value="${exercise.weight}" class="workouts-edit-input" min="1" />
               </div>
               <div class="workouts-actions">
                 <button class="save-exercise-btn workouts-action-button" data-id="${exercise.id}" title="Save">
@@ -104,10 +125,26 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".save-exercise-btn").forEach((btn) => {
       btn.addEventListener("click", function () {
         const exerciseId = this.dataset.id;
-        const sets = document.getElementById(`sets-${exerciseId}`).value;
-        const reps = document.getElementById(`reps-${exerciseId}`).value;
-        const weight = document.getElementById(`weight-${exerciseId}`).value;
-        updateExercise(exerciseId, sets, reps, weight);
+        const sets = document.getElementById(`sets-${exerciseId}`);
+        const reps = document.getElementById(`reps-${exerciseId}`);
+        const weight = document.getElementById(`weight-${exerciseId}`);
+
+        if (![sets.value, reps.value, weight.value].every(Boolean)) {
+          [sets, reps, weight].forEach((input) => {
+            if (!input.value) {
+              input.classList.add("invalid");
+            } else {
+              input.classList.remove("invalid");
+            }
+          });
+          return;
+        } else {
+          [sets, reps, weight].forEach((input) => {
+            input.classList.remove("invalid");
+          });
+        }
+
+        updateExercise(exerciseId, sets.value, reps.value, weight.value);
       });
     });
 
@@ -148,7 +185,40 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function addExercise(exerciseId, sets, reps, weight) {
+  async function addExercise(exerciseId, sets, reps, weight) {
+    if (![setsInput.value, repsInput.value, weightInput.value].every(Boolean)) {
+      [setsInput, repsInput, weightInput].forEach((input) => {
+        if (!input.value) {
+          input.classList.add("invalid");
+        } else {
+          input.classList.remove("invalid");
+        }
+      });
+      return;
+    } else {
+      [setsInput, repsInput, weightInput].forEach((input) => {
+        input.classList.remove("invalid");
+      });
+    }
+
+    if (!currentWorkoutDayId) {
+      console.log("new");
+      const response = await fetch(`create_workout_day`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: currentWorkoutDayDate,
+        }),
+      });
+
+      const data = await response.json();
+      if (data) {
+        currentWorkoutDayId = data.id;
+      }
+    }
+
     fetch(`create_workout`, {
       method: "POST",
       headers: {
@@ -201,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
           option.textContent = exercise.name;
           exerciseName.appendChild(option);
         });
-        exerciseName.classList.remove("hidden");
+        exerciseNameWrapper.classList.remove("hidden");
       });
   }
 });

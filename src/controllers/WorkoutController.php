@@ -74,6 +74,21 @@ class WorkoutController extends AppController
         echo json_encode(['success' => true]);
     }
 
+    public function create_workout_day()
+    {
+        if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $workoutDayDate = $data['date'];
+
+        $day = $this->workoutRepository->addDay($workoutDayDate, $this->getSession()->getUserID());
+
+        header('Content-Type: application/json');
+        echo json_encode(["id" => $day->getId()]);
+    }
+
     public function update_workout()
     {
         if (!$this->isPatch() || !$this->getSession()->isLoggedIn()) {

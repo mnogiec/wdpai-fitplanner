@@ -302,5 +302,9 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.invalid {
+  border-color: var(--color-error) !important;
 }

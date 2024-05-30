@@ -75,6 +75,22 @@ class WorkoutRepository extends Repository
     $query->execute();
   }
 
+  public function addDay($workoutDay, $userId)
+  {
+    $query = $this->database->connect()->prepare('
+        INSERT INTO workout_days (date, user_id)
+        VALUES (:workoutDay, :userId)
+        RETURNING id
+    ');
+    $query->bindParam(':workoutDay', $workoutDay, PDO::PARAM_STR);
+    $query->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $query->execute();
+
+    $lastInsertId = $query->fetchColumn();
+
+    return new WorkoutDay($lastInsertId, $workoutDay, $userId);
+  }
+
   public function updateExerciseById($exerciseId, $sets, $reps, $weight)
   {
     $query = $this->database->connect()->prepare('

@@ -23,6 +23,7 @@ Router::post('logout', 'AuthController');
 Router::get('get_categories', 'WorkoutController');
 Router::get('get_exercises_by_category', 'WorkoutController');
 Router::post('create_workout', 'WorkoutController');
+Router::post('create_workout_day', 'WorkoutController');
 Router::patch('update_workout', 'WorkoutController');
 Router::delete('delete_workout', 'WorkoutController');
 

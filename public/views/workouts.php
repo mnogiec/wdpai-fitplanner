@@ -24,29 +24,42 @@
       </div>
       <div class="modal-body">
         <div id="exercisesList" class="workouts-exercises-list"></div>
-        <button id="addExerciseBtn">Add Exercise</button>
+        <div class="workouts-button-wrapper">
+          <button id="addExerciseBtn" class="btn">Add Exercise</button>
+        </div>
         <div id="addExerciseForm" class="hidden">
-          <select id="exerciseCategory">
-            <option value="">Select Category</option>
-            <!-- Categories will be populated dynamically -->
-          </select>
-          <select id="exerciseName" class="hidden">
-            <option value="">Select Exercise</option>
-            <!-- Exercises will be populated dynamically -->
-          </select>
-          <div class="workouts-edit-input-box">
-            <label for="new-sets">Sets:</label>
-            <input type="number" id="new-sets" name="new-sets" class="workouts-edit-input" />
+          <p class="font-bold text-xl">New exercise</p>
+          <div class="workouts-edit-input-box" id="exerciseCategoryWrapper">
+            <label for="exerciseCategory">Category:</label>
+            <select id="exerciseCategory" name="exerciseCategory" class="workouts-select">
+              <option value="">Select Category</option>
+              <!-- Categories will be populated dynamically -->
+            </select>
           </div>
-          <div class="workouts-edit-input-box">
-            <label for="new-reps">Reps:</label>
-            <input type="number" id="new-reps" name="new-reps" class="workouts-edit-input" />
+          <div class="workouts-edit-input-box hidden" id="exerciseNameWrapper">
+            <label for="exerciseName">Exercise:</label>
+            <select id="exerciseName" name="exerciseName" class="workouts-select">
+              <option value="">Select Exercise</option>
+              <!-- Exercises will be populated dynamically -->
+            </select>
           </div>
-          <div class="workouts-edit-input-box">
-            <label for="new-weight">Weight:</label>
-            <input type="number" id="new-weight" name="new-weight" class="workouts-edit-input" />
+          <div id="workouts-edit-wrapper" class="hidden">
+            <div class="workouts-edit-input-box">
+              <label for="new-sets">Sets:</label>
+              <input type="number" id="new-sets" name="new-sets" class="workouts-edit-input" min="1" required />
+            </div>
+            <div class="workouts-edit-input-box">
+              <label for="new-reps">Reps:</label>
+              <input type="number" id="new-reps" name="new-reps" class="workouts-edit-input" min="1" required />
+            </div>
+            <div class="workouts-edit-input-box">
+              <label for="new-weight">Weight:</label>
+              <input type="number" id="new-weight" name="new-weight" class="workouts-edit-input" min="1" required />
+            </div>
           </div>
-          <button id="saveNewExerciseBtn">Save</button>
+          <div class="workouts-button-wrapper">
+            <button id="saveNewExerciseBtn" class="btn">Save</button>
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +83,8 @@
             </div>
 
             <div class="workouts-manage-wrapper">
-              <button type="button" class="btn" id="manageWorkoutBtn">
+              <button type="button" class="btn" id="manageWorkoutBtn" data-date="<?php echo $today; ?>"
+                data-exercises='<?php echo json_encode([]); ?>'>
                 Add exercise
                 <i class="fa-solid fa-plus"></i>
               </button>
