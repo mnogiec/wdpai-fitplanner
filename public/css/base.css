@@ -58,6 +58,12 @@ body {
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .main {
+    padding: 10rem 1.5rem 7rem 1.5rem;
+  }
+}
+
 .text-input {
   border: 1px solid var(--color-gray);
   border-radius: 0.8rem;
@@ -267,7 +273,7 @@ body {
   background-color: white;
   padding: 2rem;
   border: 0.1rem solid #888;
-  width: 80%;
+  width: 90%;
   max-width: 60rem;
   border-radius: 0.8rem;
 }

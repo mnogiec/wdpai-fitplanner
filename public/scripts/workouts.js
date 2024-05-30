@@ -172,6 +172,11 @@ document.addEventListener("DOMContentLoaded", function () {
       exerciseItem.querySelector("#weight").textContent = `Weight: ${weight}kg`;
       const volume = sets * reps * weight;
       exerciseItem.querySelector("#volume").textContent = `Volume: ${volume}kg`;
+
+      const mobileItem = document.querySelector(
+        `.mobile-exercise-item.og-data[data-id='${exerciseId}']`
+      );
+      mobileItem.textContent = `${sets}x${reps}x${weight}kg`;
     });
   }
 

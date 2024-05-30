@@ -135,6 +135,19 @@
                 <?php endif; ?>
               </div>
 
+              <div class="workouts-units-wrapper-mobile text-gray text-sm">
+                <ul>
+                  <?php foreach ($day['exercises'] as $exercise): ?>
+                    <li><?php echo htmlspecialchars($exercise->getExercise()->getName()); ?> -
+                      <span class="mobile-exercise-item og-data"
+                        data-id="<?php echo htmlspecialchars($exercise->getId()); ?>">
+                        <?php echo htmlspecialchars($exercise->getSets()); ?>x<?php echo htmlspecialchars($exercise->getReps()); ?>x<?php echo htmlspecialchars($exercise->getWeight()); ?>kg
+                      </span>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+
               <div class="workouts-manage-wrapper">
                 <button type="button" class="btn" id="manageWorkoutBtn" data-date="<?php echo $date; ?>"
                   data-workout-day-id="<?php echo $day['day_id']; ?>"

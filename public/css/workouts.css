@@ -137,3 +137,26 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+.workouts-units-wrapper-mobile {
+  display: none;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .workouts-units-wrapper {
+    display: none;
+  }
+  .workouts-units-wrapper-mobile {
+    display: block;
+  }
+
+  .workouts-edit-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .workouts-actions {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+}
