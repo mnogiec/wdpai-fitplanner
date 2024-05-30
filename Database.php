@@ -1,5 +1,7 @@
 <?php
 
+require_once 'src/utils/utils.php';
+
 class Database
 {
     private static $instance = null;
@@ -7,13 +9,15 @@ class Database
     private $password;
     private $host;
     private $database;
+    private $port;
 
     public function __construct()
     {
-        $this->username = "docker";
-        $this->password = "docker";
-        $this->host = "db";
-        $this->database = "db";
+        $this->username = env('DB_USERNAME');
+        $this->password = env('DB_PASSWORD');
+        $this->host = env('DB_HOST');
+        $this->database = env('DB_DATABASE');
+        $this->port = env('DB_PORT');
     }
 
     public static function getInstance()
@@ -36,7 +40,7 @@ class Database
     {
         try {
             $conn = new PDO(
-                "pgsql:host=$this->host;port=5432;dbname=$this->database",
+                "pgsql:host=$this->host;port=$this->port;dbname=$this->database",
                 $this->username,
                 $this->password,
                 ["sslmode" => "prefer"]
