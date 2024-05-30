@@ -1,6 +1,6 @@
 <?php
 
-require 'Routing.php';
+require_once 'Routing.php';
 
 
 $path = trim($_SERVER['REQUEST_URI'], '/');
