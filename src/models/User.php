@@ -2,15 +2,15 @@
 
 class User
 {
-  public $id;
-  public $firstName;
-  public $lastName;
-  public $email;
-  public $password;
-  public $createdAt;
-  public $isAdmin;
+  private $id;
+  private $firstName;
+  private $lastName;
+  private $email;
+  private $password;
+  private $createdAt;
+  private $isAdmin;
 
-  public function __construct($id, $firstName, $lastName, $email, $password, $createdAt, $isAdmin)
+  public function __construct(int $id, string $firstName, string $lastName, string $email, string $password, string $createdAt, bool $isAdmin)
   {
     $this->id = $id;
     $this->firstName = $firstName;
@@ -21,37 +21,37 @@ class User
     $this->isAdmin = $isAdmin;
   }
 
-  public function getId()
+  public function getId(): int
   {
     return $this->id;
   }
 
-  public function getFirstName()
+  public function getFirstName(): string
   {
     return $this->firstName;
   }
 
-  public function getLastName()
+  public function getLastName(): string
   {
     return $this->lastName;
   }
 
-  public function getEmail()
+  public function getEmail(): string
   {
     return $this->email;
   }
 
-  public function getPassword()
+  public function getPassword(): string
   {
     return $this->password;
   }
 
-  public function getCreatedAt()
+  public function getCreatedAt(): string
   {
     return $this->createdAt;
   }
 
-  public function isAdmin()
+  public function isAdmin(): bool
   {
     return $this->isAdmin;
   }

@@ -2,28 +2,28 @@
 
 class WorkoutDay
 {
-  public $id;
-  public $date;
-  public $userId;
+  private $id;
+  private $date;
+  private $userId;
 
-  public function __construct($id, $date, $userId)
+  public function __construct(int $id, string $date, int $userId)
   {
     $this->id = $id;
     $this->date = $date;
     $this->userId = $userId;
   }
 
-  public function getId()
+  public function getId(): int
   {
     return $this->id;
   }
 
-  public function getDate()
+  public function getDate(): string
   {
     return $this->date;
   }
 
-  public function getUserId()
+  public function getUserId(): int
   {
     return $this->userId;
   }
