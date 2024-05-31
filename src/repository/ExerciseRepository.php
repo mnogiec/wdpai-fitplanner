@@ -5,37 +5,6 @@ require_once __DIR__ . '/../models/Exercise.php';
 
 class ExerciseRepository extends Repository
 {
-  public function getAllExercises($user_id)
-  {
-    $query = $this->database->connect()->prepare('
-      SELECT 
-      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name  
-    FROM exercises e JOIN exercise_categories c ON e.category_id = c.id WHERE (e.is_private = false) OR (e.is_private = true AND e.creator_id = :user_id)'
-    );
-
-    $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-    $query->execute();
-
-    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-    $exercises = [];
-    foreach ($result as $row) {
-      $exercises[] = new Exercise(
-        $row['id'],
-        $row['name'],
-        $row['category_id'],
-        $row['description'],
-        $row['video_url'],
-        $row['creator_id'],
-        $row['is_private'],
-        $row['image_url'],
-      );
-    }
-
-    return $exercises;
-  }
-
   public function getExercisesByCategory($categoryId)
   {
     $query = $this->database->connect()->prepare('
@@ -53,14 +22,15 @@ class ExerciseRepository extends Repository
   {
     $sql = '
       SELECT 
-      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name
-      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id
-      WHERE e.is_private = false
+        id, name, category_id, description, video_url, creator_id, is_private, image_url, category_name
+      FROM 
+        exercises_base_view
+      WHERE 
+        is_private = false
     ';
 
     if ($searchTerm) {
-      $sql .= ' AND e.name ILIKE :searchTerm';
+      $sql .= ' AND name ILIKE :searchTerm';
     }
 
     $query = $this->database->connect()->prepare($sql);
@@ -102,14 +72,15 @@ class ExerciseRepository extends Repository
   {
     $sql = '
       SELECT 
-      e.id, e.name, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url,
-      c.name as category_name  
-      FROM exercises e JOIN exercise_categories c ON e.category_id = c.id
-      WHERE e.is_private = true AND e.creator_id = :user_id
+        id, name, category_id, description, video_url, creator_id, is_private, image_url, category_name  
+      FROM 
+        private_exercises_view
+      WHERE
+        is_private = true AND creator_id = :user_id
     ';
 
     if ($searchTerm) {
-      $sql .= ' AND e.name ILIKE :searchTerm';
+      $sql .= ' AND name ILIKE :searchTerm';
     }
 
     $query = $this->database->connect()->prepare($sql);

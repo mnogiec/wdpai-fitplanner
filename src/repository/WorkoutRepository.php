@@ -10,13 +10,29 @@ class WorkoutRepository extends Repository
   public function getUserWorkouts($userId)
   {
     $query = $this->database->connect()->prepare('
-        SELECT wd.id as day_id, wd.date, we.*,
-        e.name as exercise_name, e.id as exercise_id, e.category_id, e.description, e.video_url, e.creator_id, e.is_private, e.image_url
-        FROM workout_days wd 
-        JOIN workout_exercises we ON wd.id = we.workout_day_id
-        JOIN exercises e ON e.id = we.exercise_id
-        WHERE wd.user_id = :userId
-        ORDER BY wd.date DESC
+      SELECT
+        day_id, 
+        date,
+        user_id,
+        id,
+        sets,
+        reps,
+        weight,
+        workout_day_id, 
+        exercise_name, 
+        exercise_id, 
+        category_id, 
+        description, 
+        video_url, 
+        creator_id, 
+        is_private, 
+        image_url
+      FROM 
+        user_workouts_view
+      WHERE 
+        user_id = :userId
+      ORDER BY 
+        date DESC
     ');
 
     $query->bindParam(':userId', $userId, PDO::PARAM_INT);
