@@ -206,24 +206,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    if (!currentWorkoutDayId) {
-      console.log("new");
-      const response = await fetch(`create_workout_day`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date: currentWorkoutDayDate,
-        }),
-      });
-
-      const data = await response.json();
-      if (data) {
-        currentWorkoutDayId = data.id;
-      }
-    }
-
     fetch(`create_workout`, {
       method: "POST",
       headers: {
@@ -235,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
         sets,
         reps,
         weight,
+        date: currentWorkoutDayDate,
       }),
     })
       .then((response) => response.json())

@@ -92,20 +92,42 @@ class WorkoutRepository extends Repository
     $query->execute();
   }
 
-  public function createWorkoutDay($workoutDay, $userId)
+  public function createWorkoutDayAndExercise($workoutDayDate, $exerciseId, $sets, $reps, $weight, $userId)
   {
-    $query = $this->database->connect()->prepare('
+    $connection = $this->database->connect();
+    try {
+      $connection->beginTransaction();
+
+      // Create workout day
+      $queryDay = $connection->prepare('
         INSERT INTO workout_days (date, user_id)
-        VALUES (:workoutDay, :userId)
+        VALUES (:workoutDayDate, :userId)
         RETURNING id
-    ');
-    $query->bindParam(':workoutDay', $workoutDay, PDO::PARAM_STR);
-    $query->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $query->execute();
+      ');
+      $queryDay->bindParam(':workoutDayDate', $workoutDayDate, PDO::PARAM_STR);
+      $queryDay->bindParam(':userId', $userId, PDO::PARAM_INT);
+      $queryDay->execute();
+      $workoutDayId = $queryDay->fetchColumn();
 
-    $lastInsertId = $query->fetchColumn();
+      // Create workout exercise
+      $queryExercise = $connection->prepare('
+        INSERT INTO workout_exercises (workout_day_id, exercise_id, sets, reps, weight)
+        VALUES (:workoutDayId, :exerciseId, :sets, :reps, :weight)
+      ');
+      $queryExercise->bindParam(':workoutDayId', $workoutDayId, PDO::PARAM_INT);
+      $queryExercise->bindParam(':exerciseId', $exerciseId, PDO::PARAM_INT);
+      $queryExercise->bindParam(':sets', $sets, PDO::PARAM_INT);
+      $queryExercise->bindParam(':reps', $reps, PDO::PARAM_INT);
+      $queryExercise->bindParam(':weight', $weight, PDO::PARAM_INT);
+      $queryExercise->execute();
 
-    return new WorkoutDay($lastInsertId, $workoutDay, $userId);
+      $connection->commit();
+    } catch (Exception $e) {
+      if ($connection->inTransaction()) {
+        $connection->rollBack();
+      }
+      throw $e;
+    }
   }
 
   public function updateExerciseById($exerciseId, $sets, $reps, $weight)

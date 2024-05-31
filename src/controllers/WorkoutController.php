@@ -67,37 +67,30 @@ class WorkoutController extends AppController
         }
 
         $data = json_decode(file_get_contents('php://input'), true);
-        if (!isset($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight'])) {
+        if (!isset($data['exerciseId'], $data['sets'], $data['reps'], $data['weight'])) {
             http_response_code(400);
             return;
         }
 
-        $this->workoutRepository->createWorkoutExercise($data['workout_day_id'], $data['exerciseId'], $data['sets'], $data['reps'], $data['weight']);
+        $workoutDayId = $data['workout_day_id'] ?? null;
+        $workoutDayDate = $data['date'] ?? null;
+
+        if ($workoutDayId === null && $workoutDayDate === null) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Either workout_day_id or date is required']);
+            return;
+        }
+
+        if ($workoutDayId !== null) {
+            $this->workoutRepository->createWorkoutExercise($workoutDayId, $data['exerciseId'], $data['sets'], $data['reps'], $data['weight']);
+        } else {
+            $userId = $this->getSession()->getUserId();
+            $this->workoutRepository->createWorkoutDayAndExercise($workoutDayDate, $data['exerciseId'], $data['sets'], $data['reps'], $data['weight'], $userId);
+        }
 
         header('Content-Type: application/json');
         http_response_code(201);
         echo json_encode(['success' => true]);
-    }
-
-    public function create_workout_day()
-    {
-        if (!$this->isPost() || !$this->getSession()->isLoggedIn()) {
-            http_response_code(401);
-            return;
-        }
-
-        $data = json_decode(file_get_contents('php://input'), true);
-        if (!isset($data['date'])) {
-            http_response_code(400);
-            echo json_encode(['error' => 'Date is required']);
-            return;
-        }
-
-        $day = $this->workoutRepository->createWorkoutDay($data['date'], $this->getSession()->getUserID());
-
-        header('Content-Type: application/json');
-        http_response_code(201);
-        echo json_encode(["id" => $day->getId()]);
     }
 
     public function update_workout()
