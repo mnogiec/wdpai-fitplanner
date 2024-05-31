@@ -2,15 +2,15 @@
 
 class Exercise
 {
-  private $id;
-  private $name;
-  private $categoryId;
-  private $description;
-  private $videoUrl;
-  private $creatorId;
-  private $isPrivate;
-  private $imageUrl;
-  private $exerciseCategory;
+  public $id;
+  public $name;
+  public $categoryId;
+  public $description;
+  public $videoUrl;
+  public $creatorId;
+  public $isPrivate;
+  public $imageUrl;
+  public $exerciseCategory;
 
   public function __construct($id, $name, $categoryId, $description, $videoUrl, $creatorId, $isPrivate, $imageUrl, $exerciseCategory = null)
   {

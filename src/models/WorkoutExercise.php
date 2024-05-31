@@ -2,13 +2,13 @@
 
 class WorkoutExercise
 {
-  private $id;
-  private $exerciseId;
-  private $workoutDayId;
-  private $sets;
-  private $reps;
-  private $weight;
-  private $Exercise;
+  public $id;
+  public $exerciseId;
+  public $workoutDayId;
+  public $sets;
+  public $reps;
+  public $weight;
+  public $Exercise;
 
   public function __construct($id, $exerciseId, $workoutDayId, $sets, $reps, $weight, $exercise = null)
   {

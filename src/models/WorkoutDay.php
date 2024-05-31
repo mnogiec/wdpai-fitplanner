@@ -2,9 +2,9 @@
 
 class WorkoutDay
 {
-  private $id;
-  private $date;
-  private $userId;
+  public $id;
+  public $date;
+  public $userId;
 
   public function __construct(int $id, string $date, int $userId)
   {
