@@ -11,8 +11,9 @@ class Exercise
   public $isPrivate;
   public $imageUrl;
   public $exerciseCategory;
+  public $updatedAt;
 
-  public function __construct($id, $name, $categoryId, $description, $videoUrl, $creatorId, $isPrivate, $imageUrl, $exerciseCategory = null)
+  public function __construct($id, $name, $categoryId, $description, $videoUrl, $creatorId, $isPrivate, $imageUrl, $updatedAt, $exerciseCategory = null)
   {
     $this->id = $id;
     $this->name = $name;
@@ -22,6 +23,7 @@ class Exercise
     $this->creatorId = $creatorId;
     $this->isPrivate = $isPrivate;
     $this->imageUrl = $imageUrl;
+    $this->updatedAt = $updatedAt;
     $this->exerciseCategory = $exerciseCategory;
   }
 
@@ -63,6 +65,11 @@ class Exercise
   public function getImageUrl(): ?string
   {
     return $this->imageUrl;
+  }
+
+  public function getUpdatedAt(): string
+  {
+    return $this->updatedAt;
   }
 
   public function getExerciseCategory()

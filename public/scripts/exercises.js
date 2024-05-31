@@ -233,6 +233,7 @@ function searchExercises() {
         box.dataset.description = exercise.description;
         box.dataset.imageUrl = exercise.imageUrl;
         box.dataset.isPrivate = exercise.isPrivate;
+        box.dataset.updatedAt = exercise.updatedAt;
 
         const img = document.createElement("img");
         img.src = exercise.imageUrl;

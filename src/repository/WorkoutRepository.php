@@ -60,7 +60,8 @@ class WorkoutRepository extends Repository
         $row['video_url'],
         $row['creator_id'],
         $row['is_private'],
-        $row['image_url']
+        $row['image_url'],
+        $row['updated_at']
       );
 
       $workouts[$date]['exercises'][] = new WorkoutExercise(

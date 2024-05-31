@@ -22,7 +22,7 @@ class ExerciseRepository extends Repository
   {
     $sql = '
       SELECT 
-        id, name, category_id, description, video_url, creator_id, is_private, image_url, category_name
+        id, name, category_id, description, video_url, creator_id, is_private, image_url, updated_at, category_name
       FROM 
         exercises_base_view
       WHERE 
@@ -54,6 +54,7 @@ class ExerciseRepository extends Repository
         $row['creator_id'],
         $row['is_private'],
         $row['image_url'],
+        $row['updated_at'],
       );
 
       $categoryName = $row['category_name'];
@@ -72,7 +73,7 @@ class ExerciseRepository extends Repository
   {
     $sql = '
       SELECT 
-        id, name, category_id, description, video_url, creator_id, is_private, image_url, category_name  
+        id, name, category_id, description, video_url, creator_id, is_private, image_url, updated_at, category_name  
       FROM 
         private_exercises_view
       WHERE
@@ -106,6 +107,7 @@ class ExerciseRepository extends Repository
         $row['creator_id'],
         $row['is_private'],
         $row['image_url'],
+        $row['updated_at'],
       );
 
       $categoryName = $row['category_name'];

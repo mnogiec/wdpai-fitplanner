@@ -89,7 +89,8 @@ class ExerciseController extends AppController
             $_POST['video_url'],
             $this->getLoggedUser()->getId(),
             $_POST['is_private'] ? true : false,
-            $_POST['image_url']
+            $_POST['image_url'],
+            $_POST['updated_at']
         );
 
         $this->exerciseRepository->createExercise($exercise);
@@ -118,7 +119,8 @@ class ExerciseController extends AppController
             $patchVars['video_url'],
             $this->getLoggedUser()->getId(),
             $patchVars['is_private'] ? true : false,
-            $patchVars['image_url']
+            $patchVars['image_url'],
+            $patchVars['updated_at']
         );
 
         $this->exerciseRepository->updateExercise($exercise);

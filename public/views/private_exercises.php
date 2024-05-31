@@ -116,6 +116,7 @@
                     data-category-id="<?php echo htmlspecialchars($exercise->getCategoryId()); ?>"
                     data-description="<?php echo htmlspecialchars($exercise->getDescription()); ?>"
                     data-image-url="<?php echo htmlspecialchars($exercise->getImageUrl()); ?>"
+                    data-updated-at="<?php echo htmlspecialchars($exercise->getUpdatedAt()); ?>"
                     data-is-private="<?php echo htmlspecialchars($exercise->getIsPrivate()); ?>">
                     <img src="<?php echo htmlspecialchars($exercise->getImageUrl()); ?>"
                       alt="<?php echo htmlspecialchars($exercise->getName()); ?>" class="exercises-image">
