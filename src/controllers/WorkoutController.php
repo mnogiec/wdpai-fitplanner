@@ -44,7 +44,8 @@ class WorkoutController extends AppController
 
     public function get_exercises_by_category()
     {
-        if (!$this->isGet()) {
+        if (!$this->isGet() || !$this->getSession()->isLoggedIn()) {
+            http_response_code(401);
             return;
         }
 
@@ -54,7 +55,7 @@ class WorkoutController extends AppController
             return;
         }
 
-        $exercises = $this->exerciseRepository->getExercisesByCategory($categoryId);
+        $exercises = $this->exerciseRepository->getExercisesByCategory($categoryId, $this->getSession()->getUserId());
         header('Content-Type: application/json');
         echo json_encode($exercises);
     }

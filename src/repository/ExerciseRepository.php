@@ -5,14 +5,15 @@ require_once __DIR__ . '/../models/Exercise.php';
 
 class ExerciseRepository extends Repository
 {
-  public function getExercisesByCategory($categoryId)
+  public function getExercisesByCategory($categoryId, $userId)
   {
     $query = $this->database->connect()->prepare('
         SELECT id, name
         FROM exercises
-        WHERE category_id = :categoryId
+        WHERE category_id = :categoryId AND (creator_id = :userId OR is_private = false)
     ');
     $query->bindParam(':categoryId', $categoryId, PDO::PARAM_INT);
+    $query->bindParam('userId', $userId, PDO::PARAM_INT);
     $query->execute();
 
     return $query->fetchAll(PDO::FETCH_ASSOC);
